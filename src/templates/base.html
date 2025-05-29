@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Vou Livre - Guia de Viagens{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="/" class="logo-link">
+                <img src="/static/images/logo.png" alt="Vou Livre" class="logo">
+            </a>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="/" class="nav-link">Início</a></li>
+                    <li class="nav-item"><a href="/roteiros" class="nav-link">Roteiros</a></li>
+                    <li class="nav-item"><a href="/destinos" class="nav-link">Destinos</a></li>
+                    <li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
+                    <li class="nav-item"><a href="/comunidade" class="nav-link">Comunidade</a></li>
+                    <li class="nav-item"><a href="/loja" class="nav-link">Loja</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <a href="/busca" class="nav-icon"><i class="fas fa-search"></i></a>
+                    <a href="/perfil" class="nav-icon"><i class="fas fa-user"></i></a>
+                    <a href="/carrinho" class="nav-icon"><i class="fas fa-shopping-cart"></i></a>
+                </div>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <img src="/static/images/logo-white.png" alt="Vou Livre" class="footer-logo">
+                    <p class="footer-about">O Vou Livre é seu guia completo para explorar o Rio de Janeiro e outros destinos brasileiros. Planeje sua viagem, conecte-se com outros viajantes e descubra experiências incríveis.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="footer-title">Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/">Início</a></li>
+                        <li class="footer-link"><a href="/roteiros">Roteiros</a></li>
+                        <li class="footer-link"><a href="/destinos">Destinos</a></li>
+                        <li class="footer-link"><a href="/blog">Blog</a></li>
+                        <li class="footer-link"><a href="/comunidade">Comunidade</a></li>
+                        <li class="footer-link"><a href="/loja">Loja</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">Destinos</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/destinos/copacabana">Copacabana</a></li>
+                        <li class="footer-link"><a href="/destinos/cristo-redentor">Cristo Redentor</a></li>
+                        <li class="footer-link"><a href="/destinos/pao-de-acucar">Pão de Açúcar</a></li>
+                        <li class="footer-link"><a href="/destinos/lapa">Lapa</a></li>
+                        <li class="footer-link"><a href="/destinos/ipanema">Ipanema</a></li>
+                        <li class="footer-link"><a href="/destinos/maracana">Maracanã</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">Contato</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/sobre">Sobre Nós</a></li>
+                        <li class="footer-link"><a href="/contato">Fale Conosco</a></li>
+                        <li class="footer-link"><a href="/faq">Perguntas Frequentes</a></li>
+                        <li class="footer-link"><a href="/termos">Termos de Uso</a></li>
+                        <li class="footer-link"><a href="/privacidade">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vou Livre. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

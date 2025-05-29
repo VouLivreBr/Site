@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+
+{% block title %}Roteiros - Vou Livre{% endblock %}
+
+{% block styles %}
+<style>
+    .premium-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: var(--accent);
+        color: var(--dark);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 0.8rem;
+        z-index: 10;
+    }
+    
+    .free-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: var(--secondary);
+        color: var(--light);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 0.8rem;
+        z-index: 10;
+    }
+    
+    .roteiro-card-image {
+        position: relative;
+    }
+    
+    .premium-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .roteiro-card:hover .premium-overlay {
+        opacity: 1;
+    }
+    
+    .premium-message {
+        color: white;
+        text-align: center;
+        padding: 0 20px;
+    }
+    
+    .premium-button {
+        margin-top: 15px;
+        background-color: var(--accent);
+        color: var(--dark);
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .free-highlight {
+        border: 2px solid var(--secondary);
+        box-shadow: 0 5px 15px rgba(110, 175, 126, 0.3);
+        transform: scale(1.02);
+    }
+    
+    .free-highlight::before {
+        content: "Roteiro Gratuito";
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--secondary);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+        z-index: 5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Banner -->
+<section class="page-banner" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/static/images/roteiros-banner.jpg');">
+    <div class="container">
+        <h1 class="page-title">Roteiros</h1>
+        <p class="page-subtitle">Descubra roteiros exclusivos para aproveitar o melhor do Rio de Janeiro</p>
+    </div>
+</section>
+
+<!-- Intro Section -->
+<section class="section" style="padding-bottom: 0;">
+    <div class="container">
+        <div class="intro-box" style="text-align: center; max-width: 800px; margin: 0 auto; padding: 30px; background-color: var(--gray); border-radius: 10px;">
+            <h2 style="margin-bottom: 15px;">Como funcionam nossos roteiros</h2>
+            <p>Oferecemos um roteiro gratuito de 1 dia para você conhecer o melhor do Rio em 24 horas. Para experiências mais completas, nossos roteiros premium oferecem planejamento detalhado para 2 a 7 dias, com dicas exclusivas, mapas interativos e muito mais.</p>
+            <div style="display: flex; justify-content: center; margin-top: 20px; gap: 20px;">
+                <div style="display: flex; align-items: center;">
+                    <span style="display: inline-block; padding: 5px 10px; background-color: var(--secondary); color: white; border-radius: 5px; margin-right: 10px;">GRÁTIS</span>
+                    <span>Roteiro de 1 dia</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <span style="display: inline-block; padding: 5px 10px; background-color: var(--accent); color: var(--dark); border-radius: 5px; margin-right: 10px;">PREMIUM</span>
+                    <span>Roteiros completos</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Filters and Results -->
+<section class="section">
+    <div class="container">
+        <div class="roteiros-container">
+            <!-- Filters Sidebar -->
+            <div class="filters-sidebar">
+                <h3>Filtros</h3>
+                <form class="filters-form">
+                    <div class="filter-group">
+                        <h4>Destino</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" name="destino" value="rio-de-janeiro" checked>
+                                Rio de Janeiro
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="destino" value="niteroi">
+                                Niterói
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="destino" value="buzios">
+                                Búzios
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="destino" value="paraty">
+                                Paraty
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Duração</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" name="duracao" value="1-dia">
+                                1 dia (Grátis)
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="duracao" value="2-3-dias">
+                                2-3 dias (Premium)
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="duracao" value="4-7-dias">
+                                4-7 dias (Premium)
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="duracao" value="mais-7-dias">
+                                Mais de 7 dias (Premium)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Tipo</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" name="tipo" value="aventura">
+                                Aventura
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="tipo" value="cultural">
+                                Cultural
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="tipo" value="praia">
+                                Praia
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="tipo" value="gastronomia">
+                                Gastronomia
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" name="tipo" value="familia">
+                                Família
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Preço</h4>
+                        <div class="price-slider">
+                            <input type="range" min="0" max="500" value="200" class="slider" id="priceRange">
+                            <div class="price-range">
+                                <span>R$ 0</span>
+                                <span id="priceValue">R$ 200</span>
+                                <span>R$ 500</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Avaliação</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="radio" name="avaliacao" value="4-mais">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                ou mais
+                            </label>
+                            <label class="filter-option">
+                                <input type="radio" name="avaliacao" value="3-mais">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                                ou mais
+                            </label>
+                            <label class="filter-option">
+                                <input type="radio" name="avaliacao" value="todos" checked>
+                                Todos
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Aplicar Filtros</button>
+                    <button type="reset" class="btn btn-outline btn-block">Limpar Filtros</button>
+                </form>
+            </div>
+
+            <!-- Results -->
+            <div class="roteiros-results">
+                <div class="results-header">
+                    <div class="results-count">
+                        <p>12 roteiros encontrados</p>
+                    </div>
+                    <div class="results-sort">
+                        <label for="sort">Ordenar por:</label>
+                        <select id="sort" class="sort-select">
+                            <option value="relevancia">Relevância</option>
+                            <option value="preco-menor">Menor Preço</option>
+                            <option value="preco-maior">Maior Preço</option>
+                            <option value="avaliacao">Melhor Avaliação</option>
+                            <option value="duracao">Duração</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="roteiros-grid">
+                    <!-- Roteiro Gratuito -->
+                    <div class="roteiro-card card free-highlight">
+                        <div class="roteiro-card-image">
+                            <img src="/static/images/roteiro-dia-perfeito.jpg" alt="Dia Perfeito no Rio" class="card-img">
+                            <div class="free-badge">GRÁTIS</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="roteiro-card-header">
+                                <h3 class="card-title">Dia Perfeito no Rio - 1 dia</h3>
+                                <div class="roteiro-card-meta">
+                                    <span class="roteiro-card-duration"><i class="far fa-clock"></i> 1 dia</span>
+                                    <span class="roteiro-card-type"><i class="fas fa-tag"></i> Essencial</span>
+                                </div>
+                            </div>
+                            <p class="card-text">Aproveite ao máximo 24 horas no Rio de Janeiro com este roteiro completo que inclui os principais pontos turísticos, dicas de transporte e sugestões gastronômicas.</p>
+                            <div class="roteiro-card-features">
+                                <span class="feature"><i class="fas fa-map-marker-alt"></i> 5 locais imperdíveis</span>
+                                <span class="feature"><i class="fas fa-utensils"></i> 3 recomendações gastronômicas</span>
+                                <span class="feature"><i class="fas fa-route"></i> Mapa interativo</span>
+                            </div>
+                            <p class="card-price">GRÁTIS</p>
+                            <div class="card-footer">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>4.7 (210 avaliações)</span>
+                                </div>
+                                <a href="/roteiros/dia-perfeito-rio" class="btn">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Roteiro 1 Premium -->
+                    <div class="roteiro-card card">
+                        <div class="roteiro-card-image">
+                            <img src="/static/images/roteiro1.jpg" alt="Rio Clássico" class="card-img">
+                            <div class="premium-badge">PREMIUM</div>
+                            <div class="premium-overlay">
+                                <p class="premium-message">Acesse este roteiro completo e outros conteúdos exclusivos</p>
+                                <button class="premium-button">Assinar Premium</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="roteiro-card-header">
+                                <h3 class="card-title">Rio Clássico - 3 dias</h3>
+                                <div class="roteiro-card-meta">
+                                    <span class="roteiro-card-duration"><i class="far fa-clock"></i> 3 dias</span>
+                                    <span class="roteiro-card-type"><i class="fas fa-tag"></i> Cultural</span>
+                                </div>
+                            </div>
+                            <p class="card-text">Conheça os principais pontos turísticos do Rio de Janeiro em um roteiro completo de 3 dias. Inclui Cristo Redentor, Pão de Açúcar e praias famosas.</p>
+                            <div class="roteiro-card-features">
+                                <span class="feature"><i class="fas fa-map-marker-alt"></i> 8 locais</span>
+                                <span class="feature"><i class="fas fa-utensils"></i> Dicas gastronômicas</span>
+                                <span class="feature"><i class="fas fa-route"></i> Mapa interativo</span>
+                            </div>
+                            <p class="card-price">R$ 129,90</p>
+                            <div class="card-footer">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>4.5 (120 avaliações)</span>
+                                </div>
+                                <a href="/roteiros/rio-classico" class="btn">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Roteiro 2 Premium -->
+                    <div class="roteiro-card card">
+                        <div class="roteiro-card-image">
+                            <img src="/static/images/roteiro2.jpg" alt="Praias do Rio" class="card-img">
+                            <div class="premium-badge">PREMIUM</div>
+                            <div class="premium-overlay">
+                                <p class="premium-message">Acesse este roteiro completo e outros conteúdos exclusivos</p>
+                                <button class="premium-button">Assinar Premium</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="roteiro-card-header">
+                                <h3 class="card-title">Praias do Rio - 2 dias</h3>
+                                <div class="roteiro-card-meta">
+                                    <span class="roteiro-card-duration"><i class="far fa-clock"></i> 2 dias</span>
+                                    <span class="roteiro-card-type"><i class="fas fa-tag"></i> Praia</span>
+                                </div>
+                            </div>
+                            <p class="card-text">Um fim de semana relaxante conhecendo as melhores praias da cidade maravilhosa. De Copacabana a Grumari, um roteiro completo para os amantes do mar.</p>
+                            <div class="roteiro-card-features">
+                                <span class="feature"><i class="fas fa-map-marker-alt"></i> 6 praias</span>
+                                <span class="feature"><i class="fas fa-umbrella-beach"></i> Quiosques recomendados</span>
+                                <span class="feature"><i class="fas fa-bus"></i> Transporte público</span>
+                            </div>
+                            <p class="card-price">R$ 89,90</p>
+                            <div class="card-footer">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>4.0 (85 avaliações)</span>
+                                </div>
+                                <a href="/roteiros/praias-rio" class="btn">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Roteiro 3 Premium -->
+                    <div class="roteiro-card card">
+                        <div class="roteiro-card-image">
+                            <img src="/static/images/roteiro3.jpg" alt="Rio Gastronômico" class="card-img">
+                            <div class="premium-badge">PREMIUM</div>
+                            <div class="premium-overlay">
+                                <p class="premium-message">Acesse este roteiro completo e outros conteúdos exclusivos</p>
+                                <button class="premium-button">Assinar Premium</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="roteiro-card-header">
+                                <h3 class="card-title">Rio Gastronômico - 4 dias</h3>
+                                <div class="roteiro-card-meta">
+                                    <span class="roteiro-card-duration"><i class="far fa-clock"></i> 4 dias</span>
+                                    <span class="roteiro-card-type"><i class="fas fa-tag"></i> Gastronomia</span>
+                                </div>
+                            </div>
+                            <p class="card-text">Experimente o melhor da gastronomia carioca neste roteiro para verdadeiros amantes da boa comida. Dos botecos tradicionais aos restaurantes estrelados.</p>
+                            <div class="roteiro-card-features">
+                                <span class="feature"><i class="fas fa-utensils"></i> 15 restaurantes</span>
+                                <span class="feature"><i class="fas fa-cocktail"></i> Bares selecionados</span>
+                                <span class="feature"><i class="fas fa-percent"></i> Descontos exclusivos</span>
+                            </div>
+                            <p class="card-price">R$ 159,90</p>
+                            <div class="card-footer">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>4.8 (95 avaliações)</span>
+                                </div>
+                                <a href="/roteiros/rio-gastronomico" class="btn">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Roteiro 4 Premium -->
+                    <div class="roteiro-card card">
+                        <div class="roteiro-card-image">
+                            <img src="/static/images/roteiro4.jpg" alt="Rio Aventura" class="card-img">
+                            <div class="premium-badge">PREMIUM</div>
+                            <div class="premium-overlay">
+                                <p class="premium-message">Acesse este roteiro completo e outros conteúdos exclusivos</p>
+                                <button class="premium-button">Assinar Premium</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="roteiro-card-header">
+                                <h3 class="card-title">Rio Aventura - 3 dias</h3>
+                                <div class="roteiro-card-meta">
+                                    <span class="roteiro-card-duration"><i class="far fa-clock"></i> 3 dias</span>
+                                    <span class="roteiro-card-type"><i class="fas fa-tag"></i> Aventura</span>
+                                </div>
+                            </div>
+                            <p class="card-text">Para os amantes de adrenalina, um roteiro com as melhores trilhas, voo de asa delta, escalada e muito mais. Aventure-se pelos cenários naturais do Rio.</p>
+                            <div class="roteiro-card-features">
+                                <span class="feature"><i class="fas fa-hiking"></i> 4 trilhas</span>
+                                <span class="feature"><i class="fas fa-mountain"></i> Escalada</span>
+                                <span class="feature"><i class="fas fa-water"></i> Esportes aquáticos</span>
+                            </div>
+                            <p class="card-price">R$ 139,90</p>
+                            <div class="card-footer">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>4.2 (78 avaliações)</span>
+                                </div>
+                                <a href="/roteiros/rio-aventura" class="btn">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Roteiro 5 Premium -->
+                    <div class="roteiro-card card">
+                        <div class="roteiro-card-image">
+                            <img src="/static/images/roteiro5.jpg" alt="Rio Cultural" class="card-img">
+                            <div class="premium-badge">PREMIUM</div>
+                            <div class="premium-overlay">
+                                <p class="premium-message">Acesse este roteiro completo e outros conteúdos exclusivos</p>
+                                <button class="premium-button">Assinar Premium</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="roteiro-card-header">
+                                <h3 class="card-title">Rio Cultural - 2 dias</h3>
+                                <div class="roteiro-card-meta">
+                                    <span class="roteiro-card-duration"><i class="far fa-clock"></i> 2 dias</span>
+                                    <span class="roteiro-card-type"><i class="fas fa-tag"></i> Cultural</span>
+                                </div>
+                            </div>
+                            <p class="card-text">Conheça os melhores museus, centros culturais e pontos históricos do Rio de Janeiro. Um mergulho na rica história e cultura carioca.</p>
+                            <div class="roteiro-card-features">
+                                <span class="feature"><i class="fas fa-landmark"></i> 7 museus</span>
+                                <span class="feature"><i class="fas fa-theater-masks"></i> Teatros</span>
+                                <span class="feature"><i class="fas fa-monument"></i> Pontos históricos</span>
+                            </div>
+                            <p class="card-price">R$ 79,90</p>
+                            <div class="card-footer">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>3.5 (62 avaliações)</span>
+                                </div>
+                                <a href="/roteiros/rio-cultural" class="btn">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Roteiro 6 Premium -->
+                    <div class="roteiro-card card">
+                        <div class="roteiro-card-image">
+                            <img src="/static/images/roteiro6.jpg" alt="Rio em Família" class="card-img">
+                            <div class="premium-badge">PREMIUM</div>
+                            <div class="premium-overlay">
+                                <p class="premium-message">Acesse este roteiro completo e outros conteúdos exclusivos</p>
+                                <button class="premium-button">Assinar Premium</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="roteiro-card-header">
+                                <h3 class="card-title">Rio em Família - 5 dias</h3>
+                                <div class="roteiro-card-meta">
+                                    <span class="roteiro-card-duration"><i class="far fa-clock"></i> 5 dias</span>
+                                    <span class="roteiro-card-type"><i class="fas fa-tag"></i> Família</span>
+                                </div>
+                            </div>
+                            <p class="card-text">Roteiro completo para quem viaja com crianças. Parques, zoológico, aquário e muito mais para divertir toda a família no Rio de Janeiro.</p>
+                            <div class="roteiro-card-features">
+                                <span class="feature"><i class="fas fa-child"></i> Atividades infantis</span>
+                                <span class="feature"><i class="fas fa-ice-cream"></i> Restaurantes kids friendly</span>
+                                <span class="feature"><i class="fas fa-hotel"></i> Hotéis recomendados</span>
+                            </div>
+                            <p class="card-price">R$ 199,90</p>
+                            <div class="card-footer">
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>4.1 (105 avaliações)</span>
+                                </div>
+                                <a href="/roteiros/rio-familia" class="btn">Ver Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#" class="pagination-item active">1</a>
+                    <a href="#" class="pagination-item">2</a>
+                    <a href="#" class="pagination-item">3</a>
+                    <span class="pagination-dots">...</span>
+                    <a href="#" class="pagination-item">8</a>
+                    <a href="#" class="pagination-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Premium Plans -->
+<section class="section" style="background-color: var(--gray);">
+    <div class="container">
+        <h2 class="section-title">Planos Premium</h2>
+        <p class="section-subtitle" style="text-align: center; margin-bottom: 40px;">Acesse todos os roteiros e recursos exclusivos</p>
+        
+        <div class="grid grid-3">
+            <!-- Plano Mensal -->
+            <div class="card">
+                <div class="card-content" style="text-align: center;">
+                    <h3 class="card-title">Mensal</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; margin: 20px 0;">
+                        R$ 29,90<span style="font-size: 1rem; font-weight: normal;">/mês</span>
+                    </div>
+                    <ul style="list-style: none; margin-bottom: 30px; text-align: left;">
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Acesso a todos os roteiros premium</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Mapas interativos</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Dicas exclusivas</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Atualizações mensais</li>
+                    </ul>
+                    <a href="/planos/mensal" class="btn btn-block">Assinar Agora</a>
+                </div>
+            </div>
+            
+            <!-- Plano Semestral -->
+            <div class="card" style="transform: scale(1.05); border: 2px solid var(--primary); box-shadow: 0 8px 20px rgba(48, 191, 191, 0.2);">
+                <div style="background-color: var(--primary); color: white; text-align: center; padding: 10px; font-weight: bold;">MAIS POPULAR</div>
+                <div class="card-content" style="text-align: center;">
+                    <h3 class="card-title">Semestral</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; margin: 20px 0;">
+                        R$ 149,90<span style="font-size: 1rem; font-weight: normal;">/6 meses</span>
+                    </div>
+                    <div style="margin-bottom: 20px; color: var(--primary); font-weight: bold;">
+                        Economize R$ 29,50 (16%)
+                    </div>
+                    <ul style="list-style: none; margin-bottom: 30px; text-align: left;">
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Acesso a todos os roteiros premium</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Mapas interativos</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Dicas exclusivas</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Atualizações mensais</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Suporte prioritário</li>
+                    </ul>
+                    <a href="/planos/semestral" class="btn btn-block">Assinar Agora</a>
+                </div>
+            </div>
+            
+            <!-- Plano Anual -->
+            <div class="card">
+                <div class="card-content" style="text-align: center;">
+                    <h3 class="card-title">Anual</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; margin: 20px 0;">
+                        R$ 249,90<span style="font-size: 1rem; font-weight: normal;">/ano</span>
+                    </div>
+                    <div style="margin-bottom: 20px; color: var(--primary); font-weight: bold;">
+                        Economize R$ 108,90 (30%)
+                    </div>
+                    <ul style="list-style: none; margin-bottom: 30px; text-align: left;">
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Acesso a todos os roteiros premium</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Mapas interativos</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Dicas exclusivas</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Atualizações mensais</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Suporte prioritário</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: var(--secondary); margin-right: 10px;"></i> Descontos exclusivos com parceiros</li>
+                    </ul>
+                    <a href="/planos/anual" class="btn btn-block">Assinar Agora</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter">
+    <div class="container">
+        <h2 class="newsletter-title">Receba Novidades e Ofertas Exclusivas</h2>
+        <p style="margin-bottom: 30px;">Inscreva-se em nossa newsletter e fique por dentro das novidades do Vou Livre.</p>
+        <form class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="Seu melhor e-mail">
+            <button type="submit" class="newsletter-btn">Inscrever-se</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Price range slider
+    const priceRange = document.getElementById('priceRange');
+    const priceValue = document.getElementById('priceValue');
+    
+    if (priceRange && priceValue) {
+        priceRange.addEventListener('input', function() {
+            priceValue.textContent = `R$ ${this.value}`;
+        });
+    }
+    
+    // Premium buttons
+    const premiumButtons = document.querySelectorAll('.premium-button');
+    premiumButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = '/planos';
+        });
+    });
+</script>
+{% endblock %}

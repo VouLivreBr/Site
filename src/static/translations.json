@@ -1,0 +1,332 @@
+{
+  "pt": {
+    "site_name": "Vou Livre",
+    "site_tagline": "Guia de Viagens",
+    "menu": {
+      "home": "Início",
+      "itineraries": "Roteiros",
+      "destinations": "Destinos",
+      "blog": "Blog",
+      "community": "Comunidade",
+      "shop": "Loja"
+    },
+    "hero": {
+      "title": "Descubra o Rio de Janeiro com o Vou Livre",
+      "subtitle": "Planeje sua viagem perfeita, conecte-se com outros viajantes e explore novos destinos com nossos roteiros exclusivos.",
+      "cta": "Explorar Roteiros"
+    },
+    "search": {
+      "placeholder_destination": "Para onde você quer ir?",
+      "placeholder_start_date": "Data de ida",
+      "placeholder_end_date": "Data de volta",
+      "placeholder_trip_type": "Tipo de viagem",
+      "button": "Buscar"
+    },
+    "sections": {
+      "destinations": {
+        "subtitle": "Conheça",
+        "title": "Destinos em Destaque",
+        "button": "Ver Todos os Destinos"
+      },
+      "itineraries": {
+        "subtitle": "Planeje",
+        "title": "Roteiros Populares",
+        "button": "Ver Todos os Roteiros"
+      },
+      "blog": {
+        "subtitle": "Inspire-se",
+        "title": "Últimas do Blog",
+        "button": "Ver Todos os Posts"
+      },
+      "community": {
+        "subtitle": "Conecte-se",
+        "title": "Nossa Comunidade",
+        "button": "Junte-se à Comunidade"
+      }
+    },
+    "newsletter": {
+      "title": "Receba Novidades e Ofertas Exclusivas",
+      "subtitle": "Inscreva-se em nossa newsletter e fique por dentro das novidades do Vou Livre.",
+      "placeholder": "Seu melhor e-mail",
+      "button": "Inscrever-se"
+    },
+    "footer": {
+      "about_text": "O Vou Livre é seu guia completo para explorar o Rio de Janeiro e outros destinos brasileiros. Planeje sua viagem, conecte-se com outros viajantes e descubra experiências incríveis.",
+      "quick_links": "Links Rápidos",
+      "destinations": "Destinos",
+      "contact": "Contato",
+      "about_us": "Sobre Nós",
+      "contact_us": "Fale Conosco",
+      "faq": "Perguntas Frequentes",
+      "terms": "Termos de Uso",
+      "privacy": "Política de Privacidade",
+      "rights": "Todos os direitos reservados."
+    },
+    "destinations": {
+      "christ": "Cristo Redentor",
+      "sugar_loaf": "Pão de Açúcar"
+    },
+    "itineraries": {
+      "free_badge": "GRÁTIS",
+      "premium_badge": "PREMIUM",
+      "free_title": "Roteiro Gratuito",
+      "premium_message": "Acesse este roteiro completo e outros conteúdos exclusivos",
+      "premium_button": "Assinar Premium",
+      "how_it_works": "Como funcionam nossos roteiros",
+      "how_it_works_text": "Oferecemos um roteiro gratuito de 1 dia para você conhecer o melhor do Rio em 24 horas. Para experiências mais completas, nossos roteiros premium oferecem planejamento detalhado para 2 a 7 dias, com dicas exclusivas, mapas interativos e muito mais.",
+      "free_day": "Roteiro de 1 dia",
+      "premium_full": "Roteiros completos",
+      "filters": "Filtros",
+      "apply_filters": "Aplicar Filtros",
+      "clear_filters": "Limpar Filtros",
+      "results_found": "roteiros encontrados",
+      "sort_by": "Ordenar por:",
+      "relevance": "Relevância",
+      "price_low": "Menor Preço",
+      "price_high": "Maior Preço",
+      "rating": "Melhor Avaliação",
+      "duration": "Duração"
+    },
+    "plans": {
+      "title": "Planos Premium",
+      "subtitle": "Acesse todos os roteiros e recursos exclusivos",
+      "monthly": "Mensal",
+      "semiannual": "Semestral",
+      "annual": "Anual",
+      "month": "mês",
+      "months": "meses",
+      "year": "ano",
+      "save": "Economize",
+      "most_popular": "MAIS POPULAR",
+      "features": {
+        "all_itineraries": "Acesso a todos os roteiros premium",
+        "interactive_maps": "Mapas interativos",
+        "exclusive_tips": "Dicas exclusivas",
+        "monthly_updates": "Atualizações mensais",
+        "priority_support": "Suporte prioritário",
+        "exclusive_discounts": "Descontos exclusivos com parceiros"
+      },
+      "subscribe_now": "Assinar Agora"
+    }
+  },
+  "en": {
+    "site_name": "Vou Livre",
+    "site_tagline": "Travel Guide",
+    "menu": {
+      "home": "Home",
+      "itineraries": "Itineraries",
+      "destinations": "Destinations",
+      "blog": "Blog",
+      "community": "Community",
+      "shop": "Shop"
+    },
+    "hero": {
+      "title": "Discover Rio de Janeiro with Vou Livre",
+      "subtitle": "Plan your perfect trip, connect with other travelers and explore new destinations with our exclusive itineraries.",
+      "cta": "Explore Itineraries"
+    },
+    "search": {
+      "placeholder_destination": "Where do you want to go?",
+      "placeholder_start_date": "Departure date",
+      "placeholder_end_date": "Return date",
+      "placeholder_trip_type": "Trip type",
+      "button": "Search"
+    },
+    "sections": {
+      "destinations": {
+        "subtitle": "Discover",
+        "title": "Featured Destinations",
+        "button": "View All Destinations"
+      },
+      "itineraries": {
+        "subtitle": "Plan",
+        "title": "Popular Itineraries",
+        "button": "View All Itineraries"
+      },
+      "blog": {
+        "subtitle": "Get Inspired",
+        "title": "Latest from the Blog",
+        "button": "View All Posts"
+      },
+      "community": {
+        "subtitle": "Connect",
+        "title": "Our Community",
+        "button": "Join the Community"
+      }
+    },
+    "newsletter": {
+      "title": "Receive News and Exclusive Offers",
+      "subtitle": "Subscribe to our newsletter and stay up to date with Vou Livre news.",
+      "placeholder": "Your best email",
+      "button": "Subscribe"
+    },
+    "footer": {
+      "about_text": "Vou Livre is your complete guide to exploring Rio de Janeiro and other Brazilian destinations. Plan your trip, connect with other travelers and discover amazing experiences.",
+      "quick_links": "Quick Links",
+      "destinations": "Destinations",
+      "contact": "Contact",
+      "about_us": "About Us",
+      "contact_us": "Contact Us",
+      "faq": "FAQ",
+      "terms": "Terms of Use",
+      "privacy": "Privacy Policy",
+      "rights": "All rights reserved."
+    },
+    "destinations": {
+      "christ": "Christ the Redeemer",
+      "sugar_loaf": "Sugar Loaf"
+    },
+    "itineraries": {
+      "free_badge": "FREE",
+      "premium_badge": "PREMIUM",
+      "free_title": "Free Itinerary",
+      "premium_message": "Access this complete itinerary and other exclusive content",
+      "premium_button": "Subscribe Premium",
+      "how_it_works": "How our itineraries work",
+      "how_it_works_text": "We offer a free 1-day itinerary for you to experience the best of Rio in 24 hours. For more complete experiences, our premium itineraries offer detailed planning for 2 to 7 days, with exclusive tips, interactive maps and much more.",
+      "free_day": "1-day itinerary",
+      "premium_full": "Complete itineraries",
+      "filters": "Filters",
+      "apply_filters": "Apply Filters",
+      "clear_filters": "Clear Filters",
+      "results_found": "itineraries found",
+      "sort_by": "Sort by:",
+      "relevance": "Relevance",
+      "price_low": "Lowest Price",
+      "price_high": "Highest Price",
+      "rating": "Best Rating",
+      "duration": "Duration"
+    },
+    "plans": {
+      "title": "Premium Plans",
+      "subtitle": "Access all itineraries and exclusive resources",
+      "monthly": "Monthly",
+      "semiannual": "Semiannual",
+      "annual": "Annual",
+      "month": "month",
+      "months": "months",
+      "year": "year",
+      "save": "Save",
+      "most_popular": "MOST POPULAR",
+      "features": {
+        "all_itineraries": "Access to all premium itineraries",
+        "interactive_maps": "Interactive maps",
+        "exclusive_tips": "Exclusive tips",
+        "monthly_updates": "Monthly updates",
+        "priority_support": "Priority support",
+        "exclusive_discounts": "Exclusive discounts with partners"
+      },
+      "subscribe_now": "Subscribe Now"
+    }
+  },
+  "es": {
+    "site_name": "Vou Livre",
+    "site_tagline": "Guía de Viajes",
+    "menu": {
+      "home": "Inicio",
+      "itineraries": "Itinerarios",
+      "destinations": "Destinos",
+      "blog": "Blog",
+      "community": "Comunidad",
+      "shop": "Tienda"
+    },
+    "hero": {
+      "title": "Descubre Río de Janeiro con Vou Livre",
+      "subtitle": "Planifica tu viaje perfecto, conéctate con otros viajeros y explora nuevos destinos con nuestros itinerarios exclusivos.",
+      "cta": "Explorar Itinerarios"
+    },
+    "search": {
+      "placeholder_destination": "¿A dónde quieres ir?",
+      "placeholder_start_date": "Fecha de ida",
+      "placeholder_end_date": "Fecha de vuelta",
+      "placeholder_trip_type": "Tipo de viaje",
+      "button": "Buscar"
+    },
+    "sections": {
+      "destinations": {
+        "subtitle": "Conoce",
+        "title": "Destinos Destacados",
+        "button": "Ver Todos los Destinos"
+      },
+      "itineraries": {
+        "subtitle": "Planifica",
+        "title": "Itinerarios Populares",
+        "button": "Ver Todos los Itinerarios"
+      },
+      "blog": {
+        "subtitle": "Inspírate",
+        "title": "Lo Último del Blog",
+        "button": "Ver Todas las Publicaciones"
+      },
+      "community": {
+        "subtitle": "Conéctate",
+        "title": "Nuestra Comunidad",
+        "button": "Únete a la Comunidad"
+      }
+    },
+    "newsletter": {
+      "title": "Recibe Novedades y Ofertas Exclusivas",
+      "subtitle": "Suscríbete a nuestro boletín y mantente al día con las novedades de Vou Livre.",
+      "placeholder": "Tu mejor correo electrónico",
+      "button": "Suscribirse"
+    },
+    "footer": {
+      "about_text": "Vou Livre es tu guía completa para explorar Río de Janeiro y otros destinos brasileños. Planifica tu viaje, conéctate con otros viajeros y descubre experiencias increíbles.",
+      "quick_links": "Enlaces Rápidos",
+      "destinations": "Destinos",
+      "contact": "Contacto",
+      "about_us": "Sobre Nosotros",
+      "contact_us": "Contáctanos",
+      "faq": "Preguntas Frecuentes",
+      "terms": "Términos de Uso",
+      "privacy": "Política de Privacidad",
+      "rights": "Todos los derechos reservados."
+    },
+    "destinations": {
+      "christ": "Cristo Redentor",
+      "sugar_loaf": "Pan de Azúcar"
+    },
+    "itineraries": {
+      "free_badge": "GRATIS",
+      "premium_badge": "PREMIUM",
+      "free_title": "Itinerario Gratuito",
+      "premium_message": "Accede a este itinerario completo y otros contenidos exclusivos",
+      "premium_button": "Suscribirse Premium",
+      "how_it_works": "Cómo funcionan nuestros itinerarios",
+      "how_it_works_text": "Ofrecemos un itinerario gratuito de 1 día para que conozcas lo mejor de Río en 24 horas. Para experiencias más completas, nuestros itinerarios premium ofrecen planificación detallada para 2 a 7 días, con consejos exclusivos, mapas interactivos y mucho más.",
+      "free_day": "Itinerario de 1 día",
+      "premium_full": "Itinerarios completos",
+      "filters": "Filtros",
+      "apply_filters": "Aplicar Filtros",
+      "clear_filters": "Limpiar Filtros",
+      "results_found": "itinerarios encontrados",
+      "sort_by": "Ordenar por:",
+      "relevance": "Relevancia",
+      "price_low": "Menor Precio",
+      "price_high": "Mayor Precio",
+      "rating": "Mejor Valoración",
+      "duration": "Duración"
+    },
+    "plans": {
+      "title": "Planes Premium",
+      "subtitle": "Accede a todos los itinerarios y recursos exclusivos",
+      "monthly": "Mensual",
+      "semiannual": "Semestral",
+      "annual": "Anual",
+      "month": "mes",
+      "months": "meses",
+      "year": "año",
+      "save": "Ahorra",
+      "most_popular": "MÁS POPULAR",
+      "features": {
+        "all_itineraries": "Acceso a todos los itinerarios premium",
+        "interactive_maps": "Mapas interactivos",
+        "exclusive_tips": "Consejos exclusivos",
+        "monthly_updates": "Actualizaciones mensuales",
+        "priority_support": "Soporte prioritario",
+        "exclusive_discounts": "Descuentos exclusivos con socios"
+      },
+      "subscribe_now": "Suscribirse Ahora"
+    }
+  }
+}

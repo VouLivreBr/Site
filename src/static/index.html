@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vou Livre BR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="/" class="logo-link">
+                <img src="/static/images/logo.png" alt="Vou Livre" class="logo" width="300">
+            </a>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="/" class="nav-link">Início</a></li>
+                    <li class="nav-item"><a href="/roteiros" class="nav-link">Roteiros</a></li>
+                    <li class="nav-item"><a href="/destinos" class="nav-link">Destinos</a></li>
+                    <li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
+                    <li class="nav-item"><a href="/comunidade" class="nav-link">Comunidade</a></li>
+                    <li class="nav-item"><a href="/loja" class="nav-link">Loja</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <a href="/busca" class="nav-icon"><i class="fas fa-search"></i></a>
+                    <a href="/perfil" class="nav-icon"><i class="fas fa-user"></i></a>
+                    <a href="/carrinho" class="nav-icon"><i class="fas fa-shopping-cart"></i></a>
+                </div>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Descubra o Brasil com o Vou Livre</h1>
+                <p class="hero-text">Planeje sua viagem perfeita, conecte-se com outros viajantes e explore novos destinos com nossos roteiros exclusivos.</p>
+                <a href="/roteiros" class="btn btn-accent">Explorar Roteiros</a>
+            </div>
+        </div>
+    </section>
+
+<!-- Search Bar -->
+<div class="container">
+    <div class="search-bar">
+        <form class="search-form">
+            <!-- Destino -->
+            <input type="text" class="search-input" placeholder="Para onde você quer ir?">
+            
+            <!-- Grupo Chegada -->
+            <div class="input-group">
+                <input type="date" class="search-input date-input" placeholder="Chegada">
+                <input type="time" class="search-input time-input" value="14:00">
+            </div>
+            
+            <!-- Grupo Saída -->
+            <div class="input-group">
+                <input type="date" class="search-input date-input" placeholder="Saída">
+                <input type="time" class="search-input time-input" value="12:00">
+            </div>
+            
+            <!-- Tipo de Viagem -->
+            <select class="search-input">
+                <option value="">Tipo de viagem</option>
+                <option value="aventura">Aventura</option>
+                <option value="cultural">Cultural</option>
+                <option value="praia">Praia</option>
+                <option value="praia">Grupo</option>
+            </select>
+            
+            <button type="submit" class="btn search-btn">Buscar</button>
+        </form>
+    </div>
+</div>
+
+    <!-- Destinations Section -->
+    <section class="section">
+        <div class="container">
+            <p class="section-subtitle">Conheça</p>
+            <h2 class="section-title">Destinos em Destaque</h2>
+            <div class="grid grid-4">
+                <div class="destination-card">
+                    <img src="/static/images/Ipanema.jpg" alt="Ipanema" class="destination-img">
+                    <div class="destination-content">
+                        <h3 class="destination-title">Ipanema</h3>
+                        <p class="destination-location"><i class="fas fa-map-marker-alt"></i> Rio de Janeiro</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <img src="/static/images/Cristo Redentor.jpg" alt="Cristo Redentor" class="destination-img">
+                    <div class="destination-content">
+                        <h3 class="destination-title">Cristo Redentor</h3>
+                        <p class="destination-location"><i class="fas fa-map-marker-alt"></i> Rio de Janeiro</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <img src="/static/images/pao de acucar.jpg" alt="Pão de Açúcar" class="destination-img">
+                    <div class="destination-content">
+                        <h3 class="destination-title">Pão de Açúcar</h3>
+                        <p class="destination-location"><i class="fas fa-map-marker-alt"></i> Rio de Janeiro</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <img src="/static/images/Arcos da Lapa.jpg" alt="Lapa" class="destination-img">
+                    <div class="destination-content">
+                        <h3 class="destination-title">Lapa</h3>
+                        <p class="destination-location"><i class="fas fa-map-marker-alt"></i> Rio de Janeiro</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 30px;">
+                <a href="/destinos" class="btn">Ver Todos os Destinos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Itineraries Section -->
+    <section class="section" style="background-color: var(--gray);">
+        <div class="container">
+            <p class="section-subtitle">Planeje</p>
+            <h2 class="section-title">Roteiros Populares</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <img src="/static/images/Arpoador.jpg" alt="Roteiro Clássico" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">Rio Clássico - 3 dias</h3>
+                        <p class="card-text">Conheça os principais pontos turísticos do Rio de Janeiro em um roteiro completo de 3 dias.</p>
+                        <p class="card-price">R$ 129,90</p>
+                        <div class="card-footer">
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.5</span>
+                            </div>
+                            <a href="/roteiros/rio-classico" class="btn btn-sm">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="/static/images/Bondinho.jpg" alt="Roteiro Praias" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">Praias do Rio - 2 dias</h3>
+                        <p class="card-text">Um fim de semana relaxante conhecendo as melhores praias da cidade maravilhosa.</p>
+                        <p class="card-price">R$ 89,90</p>
+                        <div class="card-footer">
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>4.0</span>
+                            </div>
+                            <a href="/roteiros/praias-rio" class="btn btn-sm">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="/static/images/Gastronomia RJ.jpg" alt="Roteiro Gastronômico" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">Rio Gastronômico - 4 dias</h3>
+                        <p class="card-text">Experimente o melhor da gastronomia carioca neste roteiro para verdadeiros amantes da boa comida.</p>
+                        <p class="card-price">R$ 159,90</p>
+                        <div class="card-footer">
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                            <a href="/roteiros/rio-gastronomico" class="btn btn-sm">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 30px;">
+                <a href="/roteiros" class="btn">Ver Todos os Roteiros</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="section">
+        <div class="container">
+            <p class="section-subtitle">Inspire-se</p>
+            <h2 class="section-title">Últimas do Blog</h2>
+            <div class="grid grid-2">
+                <div class="blog-card card">
+                    <img src="/static/images/RJ Alto.jpg" alt="Dicas para viagem" class="card-img blog-img">
+                    <div class="card-content">
+                        <p class="blog-date">12 de Maio, 2025</p>
+                        <h3 class="card-title">10 Dicas para Aproveitar o Melhor do Rio</h3>
+                        <p class="blog-excerpt">Descubra como aproveitar ao máximo sua viagem ao Rio de Janeiro com estas dicas essenciais que todo viajante deveria conhecer.</p>
+                        <a href="/blog/dicas-rio" class="btn btn-sm">Ler Mais</a>
+                    </div>
+                </div>
+                <div class="blog-card card">
+                    <img src="/static/images/praia urca.jpg" alt="Praias secretas" class="card-img blog-img">
+                    <div class="card-content">
+                        <p class="blog-date">5 de Maio, 2025</p>
+                        <h3 class="card-title">Praias Secretas que Você Precisa Conhecer</h3>
+                        <p class="blog-excerpt">Conheça as praias menos conhecidas do Rio de Janeiro que oferecem beleza natural e tranquilidade longe das multidões.</p>
+                        <a href="/blog/praias-secretas" class="btn btn-sm">Ler Mais</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 30px;">
+                <a href="/blog" class="btn">Ver Todos os Posts</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="section" style="background-color: var(--gray);">
+        <div class="container">
+            <p class="section-subtitle">Conecte-se</p>
+            <h2 class="section-title">Nossa Comunidade</h2>
+            <div class="grid grid-3">
+                <div class="card testimonial">
+                    <div class="testimonial-text">
+                        "Os roteiros do Vou Livre tornaram minha viagem ao Rio muito mais fácil e divertida. Consegui conhecer lugares que nunca encontraria sozinha!"
+                    </div>
+                    <div class="testimonial-author">Ana Luiza</div>
+                    <div class="testimonial-role">Viajante Solo</div>
+                </div>
+                <div class="card testimonial">
+                    <div class="testimonial-text">
+                        "Usamos o planejador de viagem para organizar nosso fim de semana no Rio e foi perfeito! Economizamos tempo e dinheiro com as dicas."
+                    </div>
+                    <div class="testimonial-author">Carlos e Mariana</div>
+                    <div class="testimonial-role">Casal de São Paulo</div>
+                </div>
+                <div class="card testimonial">
+                    <div class="testimonial-text">
+                        "A comunidade do Vou Livre é incrível! Fiz amigos antes mesmo de chegar ao Rio e acabamos fazendo vários passeios juntos."
+                    </div>
+                    <div class="testimonial-author">Pedro Henrique</div>
+                    <div class="testimonial-role">Mochileiro</div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 30px;">
+                <a href="/comunidade" class="btn">Junte-se à Comunidade</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <h2 class="newsletter-title">Receba Novidades e Ofertas Exclusivas</h2>
+            <p style="margin-bottom: 30px;">Inscreva-se em nossa newsletter e fique por dentro das novidades do Vou Livre.</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Seu melhor e-mail">
+                <button type="submit" class="newsletter-btn">Inscrever-se</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <img src="/static/images/Fundo logo.jpg" alt="Vou Livre" class="footer-logo">
+                    <p class="footer-about">O Vou Livre é seu guia completo para explorar o Rio de Janeiro e outros destinos brasileiros. Planeje sua viagem, conecte-se com outros viajantes e descubra experiências incríveis.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="footer-title">Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/">Início</a></li>
+                        <li class="footer-link"><a href="/roteiros">Roteiros</a></li>
+                        <li class="footer-link"><a href="/destinos">Destinos</a></li>
+                        <li class="footer-link"><a href="/blog">Blog</a></li>
+                        <li class="footer-link"><a href="/comunidade">Comunidade</a></li>
+                        <li class="footer-link"><a href="/loja">Loja</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">Destinos</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/destinos/copacabana">Copacabana</a></li>
+                        <li class="footer-link"><a href="/destinos/cristo-redentor">Cristo Redentor</a></li>
+                        <li class="footer-link"><a href="/destinos/pao-de-acucar">Pão de Açúcar</a></li>
+                        <li class="footer-link"><a href="/destinos/lapa">Lapa</a></li>
+                        <li class="footer-link"><a href="/destinos/ipanema">Ipanema</a></li>
+                        <li class="footer-link"><a href="/destinos/maracana">Maracanã</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">Contato</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/sobre">Sobre Nós</a></li>
+                        <li class="footer-link"><a href="/contato">Fale Conosco</a></li>
+                        <li class="footer-link"><a href="/faq">Perguntas Frequentes</a></li>
+                        <li class="footer-link"><a href="/termos">Termos de Uso</a></li>
+                        <li class="footer-link"><a href="/privacidade">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vou Livre. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

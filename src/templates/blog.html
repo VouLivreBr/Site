@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}Blog - Vou Livre{% endblock %}
+
+{% block content %}
+<!-- Banner -->
+<section class="page-banner" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/static/images/blog-banner.jpg');">
+    <div class="container">
+        <h1 class="page-title">Blog</h1>
+        <p class="page-subtitle">Dicas, histórias e inspiração para suas viagens</p>
+    </div>
+</section>
+
+<!-- Blog Content -->
+<section class="section">
+    <div class="container">
+        <div class="blog-container">
+            <!-- Sidebar -->
+            <div class="blog-sidebar">
+                <!-- Categories -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Categorias</h3>
+                    <ul class="category-list">
+                        <li class="category-item"><a href="/blog/categoria/dicas">Dicas de Viagem</a></li>
+                        <li class="category-item"><a href="/blog/categoria/experiencias">Experiências</a></li>
+                        <li class="category-item"><a href="/blog/categoria/atracoes">Atrações</a></li>
+                        <li class="category-item"><a href="/blog/categoria/gastronomia">Gastronomia</a></li>
+                        <li class="category-item"><a href="/blog/categoria/hospedagem">Hospedagem</a></li>
+                        <li class="category-item"><a href="/blog/categoria/cultura">Cultura Local</a></li>
+                    </ul>
+                </div>
+
+                <!-- Popular Posts -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Posts Populares</h3>
+                    <div class="popular-posts">
+                        <div class="popular-post">
+                            <img src="/static/images/blog-popular1.jpg" alt="Post popular" class="popular-post-img">
+                            <div class="popular-post-content">
+                                <h4 class="popular-post-title"><a href="/blog/melhor-epoca-visitar-rio">Melhor Época para Visitar o Rio</a></h4>
+                                <p class="popular-post-date">15 de Abril, 2025</p>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <img src="/static/images/blog-popular2.jpg" alt="Post popular" class="popular-post-img">
+                            <div class="popular-post-content">
+                                <h4 class="popular-post-title"><a href="/blog/transporte-publico-rio">Guia de Transporte Público no Rio</a></h4>
+                                <p class="popular-post-date">2 de Maio, 2025</p>
+                            </div>
+                        </div>
+                        <div class="popular-post">
+                            <img src="/static/images/blog-popular3.jpg" alt="Post popular" class="popular-post-img">
+                            <div class="popular-post-content">
+                                <h4 class="popular-post-title"><a href="/blog/seguranca-viajantes">Dicas de Segurança para Viajantes</a></h4>
+                                <p class="popular-post-date">28 de Abril, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Tags Populares</h3>
+                    <div class="tag-cloud">
+                        <a href="/blog/tag/praias" class="tag">Praias</a>
+                        <a href="/blog/tag/trilhas" class="tag">Trilhas</a>
+                        <a href="/blog/tag/comida" class="tag">Comida</a>
+                        <a href="/blog/tag/historia" class="tag">História</a>
+                        <a href="/blog/tag/cultura" class="tag">Cultura</a>
+                        <a href="/blog/tag/familia" class="tag">Família</a>
+                        <a href="/blog/tag/aventura" class="tag">Aventura</a>
+                        <a href="/blog/tag/hospedagem" class="tag">Hospedagem</a>
+                        <a href="/blog/tag/transporte" class="tag">Transporte</a>
+                        <a href="/blog/tag/dicas" class="tag">Dicas</a>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Newsletter</h3>
+                    <p>Receba as últimas atualizações do blog diretamente no seu email.</p>
+                    <form class="sidebar-newsletter-form">
+                        <input type="email" placeholder="Seu email" required class="sidebar-input">
+                        <button type="submit" class="btn btn-primary btn-block">Inscrever-se</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="blog-main">
+                <!-- Featured Post -->
+                <div class="featured-post">
+                    <img src="/static/images/blog-featured.jpg" alt="Post em destaque" class="featured-post-img">
+                    <div class="featured-post-content">
+                        <div class="post-meta">
+                            <span class="post-category">Dicas de Viagem</span>
+                            <span class="post-date">12 de Maio, 2025</span>
+                        </div>
+                        <h2 class="featured-post-title"><a href="/blog/dicas-rio">10 Dicas para Aproveitar o Melhor do Rio</a></h2>
+                        <p class="featured-post-excerpt">Descubra como aproveitar ao máximo sua viagem ao Rio de Janeiro com estas dicas essenciais que todo viajante deveria conhecer. De transporte público a restaurantes locais, preparamos um guia completo para você.</p>
+                        <a href="/blog/dicas-rio" class="btn">Ler Mais</a>
+                    </div>
+                </div>
+
+                <!-- Blog Posts Grid -->
+                <div class="blog-grid">
+                    <!-- Post 1 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <a href="/blog/praias-secretas">
+                                <img src="/static/images/blog2.jpg" alt="Praias secretas" class="post-img">
+                            </a>
+                            <div class="post-category-badge">Atrações</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span class="post-date">5 de Maio, 2025</span>
+                                <span class="post-author">Por Marina Costa</span>
+                            </div>
+                            <h3 class="post-title"><a href="/blog/praias-secretas">Praias Secretas que Você Precisa Conhecer</a></h3>
+                            <p class="post-excerpt">Conheça as praias menos conhecidas do Rio de Janeiro que oferecem beleza natural e tranquilidade longe das multidões.</p>
+                            <a href="/blog/praias-secretas" class="read-more">Ler Mais <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 2 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <a href="/blog/restaurantes-tradicionais">
+                                <img src="/static/images/blog3.jpg" alt="Restaurantes tradicionais" class="post-img">
+                            </a>
+                            <div class="post-category-badge">Gastronomia</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span class="post-date">1 de Maio, 2025</span>
+                                <span class="post-author">Por Carlos Oliveira</span>
+                            </div>
+                            <h3 class="post-title"><a href="/blog/restaurantes-tradicionais">5 Restaurantes Tradicionais Cariocas</a></h3>
+                            <p class="post-excerpt">Descubra onde os cariocas realmente comem e experimente a autêntica culinária local em restaurantes tradicionais do Rio.</p>
+                            <a href="/blog/restaurantes-tradicionais" class="read-more">Ler Mais <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 3 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <a href="/blog/trilhas-urbanas">
+                                <img src="/static/images/blog4.jpg" alt="Trilhas urbanas" class="post-img">
+                            </a>
+                            <div class="post-category-badge">Aventura</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span class="post-date">28 de Abril, 2025</span>
+                                <span class="post-author">Por Pedro Santos</span>
+                            </div>
+                            <h3 class="post-title"><a href="/blog/trilhas-urbanas">Trilhas Urbanas: Natureza no Coração da Cidade</a></h3>
+                            <p class="post-excerpt">O Rio de Janeiro oferece diversas trilhas urbanas que combinam exercício físico com vistas deslumbrantes da cidade.</p>
+                            <a href="/blog/trilhas-urbanas" class="read-more">Ler Mais <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 4 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <a href="/blog/hospedagens-economicas">
+                                <img src="/static/images/blog5.jpg" alt="Hospedagens econômicas" class="post-img">
+                            </a>
+                            <div class="post-category-badge">Hospedagem</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span class="post-date">25 de Abril, 2025</span>
+                                <span class="post-author">Por Ana Luiza</span>
+                            </div>
+                            <h3 class="post-title"><a href="/blog/hospedagens-economicas">Hospedagens Econômicas com Ótima Localização</a></h3>
+                            <p class="post-excerpt">Guia completo de hostels, pousadas e hotéis econômicos bem localizados para aproveitar o Rio sem gastar muito.</p>
+                            <a href="/blog/hospedagens-economicas" class="read-more">Ler Mais <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 5 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <a href="/blog/carnaval-dicas">
+                                <img src="/static/images/blog6.jpg" alt="Dicas para o carnaval" class="post-img">
+                            </a>
+                            <div class="post-category-badge">Cultura</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span class="post-date">20 de Abril, 2025</span>
+                                <span class="post-author">Por Juliana Mendes</span>
+                            </div>
+                            <h3 class="post-title"><a href="/blog/carnaval-dicas">Como Aproveitar o Carnaval do Rio como um Local</a></h3>
+                            <p class="post-excerpt">Dicas valiosas para curtir o carnaval carioca como um verdadeiro local, dos blocos de rua ao Sambódromo.</p>
+                            <a href="/blog/carnaval-dicas" class="read-more">Ler Mais <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Post 6 -->
+                    <div class="blog-post">
+                        <div class="post-image">
+                            <a href="/blog/passeios-criancas">
+                                <img src="/static/images/blog7.jpg" alt="Passeios com crianças" class="post-img">
+                            </a>
+                            <div class="post-category-badge">Família</div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-meta">
+                                <span class="post-date">15 de Abril, 2025</span>
+                                <span class="post-author">Por Roberto Alves</span>
+                            </div>
+                            <h3 class="post-title"><a href="/blog/passeios-criancas">7 Passeios Imperdíveis com Crianças no Rio</a></h3>
+                            <p class="post-excerpt">Descubra os melhores lugares para levar as crianças no Rio de Janeiro, com atividades divertidas para toda a família.</p>
+                            <a href="/blog/passeios-criancas" class="read-more">Ler Mais <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#" class="pagination-item active">1</a>
+                    <a href="#" class="pagination-item">2</a>
+                    <a href="#" class="pagination-item">3</a>
+                    <span class="pagination-dots">...</span>
+                    <a href="#" class="pagination-item">7</a>
+                    <a href="#" class="pagination-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
