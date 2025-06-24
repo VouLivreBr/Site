@@ -191,3 +191,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const currentLang = document.querySelector('.current-lang');
+    const langDropdown = document.querySelector('.lang-dropdown');
+    const languageSelector = document.querySelector('.language-selector'); // Referência ao container pai
+
+    if (currentLang && langDropdown && languageSelector) {
+        currentLang.addEventListener('click', function(event) {
+            event.stopPropagation(); // Impede que o clique se propague e feche o dropdown imediatamente
+            langDropdown.classList.toggle('show'); // Alterna a classe 'show'
+        });
+
+        // Fecha o dropdown se o usuário clicar em qualquer lugar fora do seletor de idioma
+        document.addEventListener('click', function(event) {
+            if (!languageSelector.contains(event.target)) {
+                langDropdown.classList.remove('show');
+            }
+        });
+    }
+
+    // Você também pode adicionar lógica para o hamburger menu aqui, se ainda não tiver
+    const hamburger = document.querySelector('.hamburger');
+    const navList = document.querySelector('.nav-list'); // Assumindo que sua lista de navegação é .nav-list
+
+    if (hamburger && navList) {
+        hamburger.addEventListener('click', function() {
+            navList.classList.toggle('active'); // Use uma classe 'active' para mostrar/esconder a nav-list no mobile
+        });
+    }
+});
