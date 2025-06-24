@@ -3,123 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ translations[lang].site_name }} - {{ translations[lang].site_tagline }}{% endblock %}</title>
+    {# O bloco 'title' será preenchido por cada página filha #}
+    <title>{% block title %}Vou Livre{% endblock %}</title>
+    
+    <!-- Fontes e Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/language-selector.css">
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {# Bloco para estilos CSS específicos de cada página #}
     {% block styles %}{% endblock %}
 </head>
 <body>
-    <!-- Header -->
+    <!-- ======================= Header ======================= -->
     <header class="header">
         <div class="container header-container">
-            <a href="/{{ lang }}" class="logo-link">
-                <img src="/static/images/logo.png" alt="{{ translations[lang].site_name }}" class="logo">
+            <a href="{{ url_for('home', lang=lang) }}" class="logo-link">
+                {# Assumindo que você tem uma logo padrão. Ajuste o caminho se necessário. #}
+                <img src="{{ url_for('static', filename='images/default_logo.png') }}" alt="Vou Livre Logo" class="logo">
             </a>
+            
             <nav class="nav">
                 <ul class="nav-list">
-                    <li class="nav-item"><a href="/{{ lang }}" class="nav-link">{{ translations[lang].menu.home }}</a></li>
-                    <li class="nav-item"><a href="/{{ lang }}/roteiros" class="nav-link">{{ translations[lang].menu.itineraries }}</a></li>
-                    <li class="nav-item"><a href="/{{ lang }}/destinos" class="nav-link">{{ translations[lang].menu.destinations }}</a></li>
-                    <li class="nav-item"><a href="/{{ lang }}/blog" class="nav-link">{{ translations[lang].menu.blog }}</a></li>
-                    <li class="nav-item"><a href="/{{ lang }}/comunidade" class="nav-link">{{ translations[lang].menu.community }}</a></li>
-                    <li class="nav-item"><a href="/{{ lang }}/loja" class="nav-link">{{ translations[lang].menu.shop }}</a></li>
+                    {# Exemplo de links de navegação. Adapte com os seus. #}
+                    <li><a href="{{ url_for('home', lang=lang) }}">{{ translations[lang].nav.home }}</a></li>
+                    <li><a href="{{ url_for('roteiros_lista', lang=lang) }}">{{ translations[lang].nav.itineraries }}</a></li>
+                    <li><a href="{{ url_for('destinations', lang=lang) }}">{{ translations[lang].nav.destinations }}</a></li>
+                    <li><a href="{{ url_for('blog', lang=lang) }}">{{ translations[lang].nav.blog }}</a></li>
                 </ul>
                 <div class="nav-icons">
-                    <a href="/{{ lang }}/busca" class="nav-icon"><i class="fas fa-search"></i></a>
-                    <a href="/{{ lang }}/perfil" class="nav-icon"><i class="fas fa-user"></i></a>
-                    <a href="/{{ lang }}/carrinho" class="nav-icon"><i class="fas fa-shopping-cart"></i></a>
-                    
-                    <!-- Language Selector -->
-                    <div class="language-selector">
-                        <div class="current-lang">
-                            <img src="/static/images/flags/{{ lang }}.png" alt="{{ lang }}" class="lang-flag">
-                            <span class="lang-text">{{ {'pt': 'PT', 'en': 'EN', 'es': 'ES'}[lang] }}</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="lang-dropdown">
-                            <a href="{{ current_path|replace('/'+lang, '/pt') }}" class="lang-option">
-                                <img src="/static/images/flags/pt.png" alt="Português" class="lang-flag">
-                                <span>Português</span>
-                            </a>
-                            <a href="{{ current_path|replace('/'+lang, '/en') }}" class="lang-option">
-                                <img src="/static/images/flags/en.png" alt="English" class="lang-flag">
-                                <span>English</span>
-                            </a>
-                            <a href="{{ current_path|replace('/'+lang, '/es') }}" class="lang-option">
-                                <img src="/static/images/flags/es.png" alt="Español" class="lang-flag">
-                                <span>Español</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="hamburger">
-                    <i class="fas fa-bars"></i>
+                    {# Ícones da navegação #}
                 </div>
             </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- ======================= Conteúdo Principal da Página ======================= -->
     <main>
+        {# O conteúdo de cada página (index.html, etc.) será inserido aqui #}
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
+    <!-- ======================= Footer ======================= -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <img src="/static/images/logo-white.png" alt="{{ translations[lang].site_name }}" class="footer-logo">
-                    <p class="footer-about">{{ translations[lang].footer.about_text }}</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="footer-title">{{ translations[lang].footer.quick_links }}</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="/{{ lang }}">{{ translations[lang].menu.home }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/roteiros">{{ translations[lang].menu.itineraries }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/destinos">{{ translations[lang].menu.destinations }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/blog">{{ translations[lang].menu.blog }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/comunidade">{{ translations[lang].menu.community }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/loja">{{ translations[lang].menu.shop }}</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="footer-title">{{ translations[lang].footer.destinations }}</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="/{{ lang }}/destinos/copacabana">Copacabana</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/destinos/cristo-redentor">{{ translations[lang].destinations.christ }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/destinos/pao-de-acucar">{{ translations[lang].destinations.sugar_loaf }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/destinos/lapa">Lapa</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/destinos/ipanema">Ipanema</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/destinos/maracana">Maracanã</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="footer-title">{{ translations[lang].footer.contact }}</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="/{{ lang }}/sobre">{{ translations[lang].footer.about_us }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/contato">{{ translations[lang].footer.contact_us }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/faq">{{ translations[lang].footer.faq }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/termos">{{ translations[lang].footer.terms }}</a></li>
-                        <li class="footer-link"><a href="/{{ lang }}/privacidade">{{ translations[lang].footer.privacy }}</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 {{ translations[lang].site_name }}. {{ translations[lang].footer.rights }}</p>
-            </div>
+            {# Conteúdo do seu rodapé aqui #}
+            <p>&copy; {% now 'local', '%Y' %} Vou Livre. {{ translations[lang].footer.rights }}</p>
         </div>
     </footer>
 
-    <script src="/static/js/main.js"></script>
+    {# Bloco para scripts JS específicos de cada página #}
     {% block scripts %}{% endblock %}
 </body>
 </html>
+
