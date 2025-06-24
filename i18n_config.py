@@ -6,7 +6,8 @@ import os
 # Certifique-se de que este caminho está correto em relação ao local onde você executa seu script.
 # Se translations.json estiver na mesma pasta:
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TRANSLATIONS_FILE = os.path.join(BASE_DIR, 'translations.json')
+# O arquivo translations.json está na pasta 'static'
+TRANSLATIONS_FILE = os.path.join(BASE_DIR, 'static', 'translations.json')
 
 # Carrega as traduções do arquivo JSON
 try:
