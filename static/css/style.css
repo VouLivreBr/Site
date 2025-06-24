@@ -50,7 +50,7 @@ img {
 /* Container e grid */
 .container {
   width: 100%;
-  max-width: 130px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 15px;
 }
@@ -89,7 +89,7 @@ img {
 }
 
 .logo {
-  height: 1200px;
+  height: 130px;
 }
 
 .nav {
@@ -860,4 +860,54 @@ img {
 /* Ajuste para time-input */
 .search-input[type="time"] {
     min-width: 80px; /* Evita que fique muito estreito */
+}
+
+.language-selector {
+    position: relative; /* Essencial para que o dropdown se posicione corretamente */
+    cursor: pointer;
+    /* Outros estilos de layout conforme seu design */
+}
+
+.current-lang {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espaçamento entre a bandeira, texto e a seta */
+}
+
+.lang-flag {
+    width: 24px; /* Ajuste o tamanho da bandeira conforme necessário */
+    height: auto;
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: 100%; /* Posiciona o dropdown logo abaixo do current-lang */
+    left: 0;
+    background-color: #fff; /* Cor de fundo do dropdown */
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    min-width: 120px; /* Largura mínima para o dropdown */
+    z-index: 1000; /* Garante que o dropdown fique sobre outros elementos */
+    display: none; /* ESCONDE O DROPDOWN POR PADRÃO */
+    flex-direction: column; /* Faz com que os links fiquem um abaixo do outro */
+    border-radius: 5px; /* Bordas arredondadas, se desejar */
+    overflow: hidden; /* Para garantir que as bordas arredondadas funcionem com o conteúdo */
+}
+
+.lang-dropdown.show { /* Classe adicionada pelo JavaScript para exibir o dropdown */
+    display: flex;
+}
+
+.lang-option {
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s ease; /* Transição suave ao passar o mouse */
+}
+
+.lang-option:hover {
+    background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
 }
