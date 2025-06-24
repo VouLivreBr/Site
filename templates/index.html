@@ -1,176 +1,137 @@
 {% extends "base_multilingual.html" %}
 
-{% block title %}{{ translations[lang].site_name }} - {{ translations[lang].site_tagline }}{% endblock %}
+{% block title %}
+    {% if translations[lang].site_name is defined %}
+        {{ translations[lang].site_name }} - {{ translations[lang].site_tagline }}
+    {% else %}
+        Vou Livre - Seu guia de viagens
+    {% endif %}
+{% endblock %}
+
+{% block styles %}
+<style>
+    .hero {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{{ url_for('static', filename='images/rio-banner.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 100px 0;
+        text-align: center;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+    
+    .hero p {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+    }
+    
+    .featured-roteiros {
+        padding: 60px 0;
+    }
+    
+    .roteiro-card {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        transition: transform 0.3s;
+    }
+    
+    .roteiro-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .roteiro-img {
+        height: 200px;
+        overflow: hidden;
+    }
+    
+    .roteiro-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .roteiro-info {
+        padding: 20px;
+    }
+    
+    .roteiro-info h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    
+    .roteiro-info .price {
+        font-weight: bold;
+        color: #1a73e8;
+    }
+    
+    .rating {
+        color: #ffc107;
+        margin-bottom: 10px;
+    }
+    
+    .cta-section {
+        background-color: #f8f9fa;
+        padding: 60px 0;
+        text-align: center;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/rio-hero.jpg');">
+<section class="hero">
     <div class="container">
-        <div class="hero-content">
-            <h1 class="hero-title">{{ translations[lang].hero.title }}</h1>
-            <p class="hero-subtitle">{{ translations[lang].hero.subtitle }}</p>
-            <a href="/{{ lang }}/roteiros" class="btn btn-primary btn-lg">{{ translations[lang].hero.cta }}</a>
-        </div>
+        <h1>
+            {% if site_config %}
+                {{ site_config.titulo_pagina_inicial }}
+            {% else %}
+                Bem-vindo ao Vou Livre BR!
+            {% endif %}
+        </h1>
+        <p>
+            {% if site_config %}
+                {{ site_config.subtitulo_pagina_inicial }}
+            {% else %}
+                Sua Aventura Começa Aqui!
+            {% endif %}
+        </p>
+        <a href="{{ url_for('roteiros_lista', lang=lang) }}" class="btn btn-primary">
+            {% if translations[lang].buttons is defined and translations[lang].buttons.explore is defined %}
+                {{ translations[lang].buttons.explore }}
+            {% else %}
+                Explorar Roteiros
+            {% endif %}
+        </a>
     </div>
 </section>
 
-<!-- Search Section -->
-<section class="search-section">
+<!-- Featured Roteiros Section -->
+<section class="featured-roteiros">
     <div class="container">
-        <div class="search-box">
-            <form class="search-form">
-                <div class="search-input-group">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <input type="text" placeholder="{{ translations[lang].search.placeholder_destination }}" class="search-input">
-                </div>
-                <div class="search-input-group">
-                    <i class="far fa-calendar-alt"></i>
-                    <input type="text" placeholder="{{ translations[lang].search.placeholder_start_date }}" class="search-input">
-                </div>
-                <div class="search-input-group">
-                    <i class="far fa-calendar-alt"></i>
-                    <input type="text" placeholder="{{ translations[lang].search.placeholder_end_date }}" class="search-input">
-                </div>
-                <div class="search-input-group">
-                    <i class="fas fa-users"></i>
-                    <select class="search-select">
-                        <option value="">{{ translations[lang].search.placeholder_trip_type }}</option>
-                        <option value="solo">Solo</option>
-                        <option value="casal">Casal</option>
-                        <option value="familia">Família</option>
-                        <option value="amigos">Amigos</option>
-                    </select>
-                </div>
-                <button type="submit" class="search-button">{{ translations[lang].search.button }}</button>
-            </form>
-        </div>
-    </div>
-</section>
-
-<!-- Destinations Section -->
-<section class="section">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-subtitle">{{ translations[lang].sections.destinations.subtitle }}</span>
-            <h2 class="section-title">{{ translations[lang].sections.destinations.title }}</h2>
-        </div>
-        <div class="destinations-grid">
-            <!-- Destination 1 -->
-            <div class="destination-card">
-                <div class="destination-image">
-                    <img src="/static/images/copacabana.jpg" alt="Copacabana" class="img-fluid">
-                </div>
-                <div class="destination-content">
-                    <h3 class="destination-title">Copacabana</h3>
-                    <p class="destination-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> Rio de Janeiro</span>
-                        <span><i class="fas fa-star"></i> 4.8</span>
-                    </p>
-                    <a href="/{{ lang }}/destinos/copacabana" class="btn-link">{{ translations[lang].sections.destinations.button }} <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Destination 2 -->
-            <div class="destination-card">
-                <div class="destination-image">
-                    <img src="/static/images/cristo.jpg" alt="{{ translations[lang].destinations.christ }}" class="img-fluid">
-                </div>
-                <div class="destination-content">
-                    <h3 class="destination-title">{{ translations[lang].destinations.christ }}</h3>
-                    <p class="destination-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> Rio de Janeiro</span>
-                        <span><i class="fas fa-star"></i> 4.9</span>
-                    </p>
-                    <a href="/{{ lang }}/destinos/cristo-redentor" class="btn-link">{{ translations[lang].sections.destinations.button }} <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Destination 3 -->
-            <div class="destination-card">
-                <div class="destination-image">
-                    <img src="/static/images/pao-de-acucar.jpg" alt="{{ translations[lang].destinations.sugar_loaf }}" class="img-fluid">
-                </div>
-                <div class="destination-content">
-                    <h3 class="destination-title">{{ translations[lang].destinations.sugar_loaf }}</h3>
-                    <p class="destination-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> Rio de Janeiro</span>
-                        <span><i class="fas fa-star"></i> 4.7</span>
-                    </p>
-                    <a href="/{{ lang }}/destinos/pao-de-acucar" class="btn-link">{{ translations[lang].sections.destinations.button }} <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Destination 4 -->
-            <div class="destination-card">
-                <div class="destination-image">
-                    <img src="/static/images/lapa.jpg" alt="Lapa" class="img-fluid">
-                </div>
-                <div class="destination-content">
-                    <h3 class="destination-title">Lapa</h3>
-                    <p class="destination-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> Rio de Janeiro</span>
-                        <span><i class="fas fa-star"></i> 4.5</span>
-                    </p>
-                    <a href="/{{ lang }}/destinos/lapa" class="btn-link">{{ translations[lang].sections.destinations.button }} <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="section-footer">
-            <a href="/{{ lang }}/destinos" class="btn btn-outline">{{ translations[lang].sections.destinations.button }}</a>
-        </div>
-    </div>
-</section>
-
-<!-- Itineraries Section -->
-<section class="section bg-light">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-subtitle">{{ translations[lang].sections.itineraries.subtitle }}</span>
-            <h2 class="section-title">{{ translations[lang].sections.itineraries.title }}</h2>
-        </div>
-        <div class="itineraries-grid">
-            <!-- Itinerary 1 - Free -->
-            <div class="itinerary-card card free-highlight">
-                <div class="itinerary-image">
-                    <img src="/static/images/roteiro-dia-perfeito.jpg" alt="Dia Perfeito no Rio" class="card-img">
-                    <div class="itinerary-badge free">{{ translations[lang].itineraries.free_badge }}</div>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Dia Perfeito no Rio - 1 dia</h3>
-                    <div class="itinerary-meta">
-                        <span><i class="far fa-clock"></i> 1 dia</span>
-                        <span><i class="fas fa-tag"></i> Essencial</span>
+        <h2 class="text-center mb-5">
+            {% if translations[lang].sections is defined and translations[lang].sections.featured_itineraries is defined %}
+                {{ translations[lang].sections.featured_itineraries }}
+            {% else %}
+                Roteiros em Destaque
+            {% endif %}
+        </h2>
+        
+        <div class="row">
+            <!-- Roteiro 1 -->
+            <div class="col-md-4">
+                <div class="roteiro-card">
+                    <div class="roteiro-img">
+                        <img src="{{ url_for('static', filename='images/cristo.jpg') }}" alt="Rio Clássico">
                     </div>
-                    <p class="card-text">Aproveite ao máximo 24 horas no Rio de Janeiro com este roteiro completo que inclui os principais pontos turísticos, dicas de transporte e sugestões gastronômicas.</p>
-                    <div class="card-footer">
-                        <div class="card-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span>4.7</span>
-                        </div>
-                        <a href="/{{ lang }}/roteiros/dia-perfeito-rio" class="btn">{{ translations[lang].sections.itineraries.button }}</a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Itinerary 2 - Premium -->
-            <div class="itinerary-card card">
-                <div class="itinerary-image">
-                    <img src="/static/images/roteiro1.jpg" alt="Rio Clássico" class="card-img">
-                    <div class="itinerary-badge premium">{{ translations[lang].itineraries.premium_badge }}</div>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Rio Clássico - 3 dias</h3>
-                    <div class="itinerary-meta">
-                        <span><i class="far fa-clock"></i> 3 dias</span>
-                        <span><i class="fas fa-tag"></i> Cultural</span>
-                    </div>
-                    <p class="card-text">Conheça os principais pontos turísticos do Rio de Janeiro em um roteiro completo de 3 dias. Inclui Cristo Redentor, Pão de Açúcar e praias famosas.</p>
-                    <div class="card-footer">
-                        <div class="card-rating">
+                    <div class="roteiro-info">
+                        <h3>Rio Clássico - 3 dias</h3>
+                        <div class="rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -178,26 +139,24 @@
                             <i class="fas fa-star-half-alt"></i>
                             <span>4.5</span>
                         </div>
-                        <a href="/{{ lang }}/roteiros/rio-classico" class="btn">{{ translations[lang].sections.itineraries.button }}</a>
+                        <p>Conheça os principais pontos turísticos do Rio de Janeiro em um roteiro completo de 3 dias.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="price">R$ 129,90</span>
+                            <a href="{{ url_for('roteiro_detalhe', lang=lang, roteiro_slug='rio-classico') }}" class="btn btn-sm btn-outline-primary">Ver Detalhes</a>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Itinerary 3 - Premium -->
-            <div class="itinerary-card card">
-                <div class="itinerary-image">
-                    <img src="/static/images/roteiro2.jpg" alt="Praias do Rio" class="card-img">
-                    <div class="itinerary-badge premium">{{ translations[lang].itineraries.premium_badge }}</div>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Praias do Rio - 2 dias</h3>
-                    <div class="itinerary-meta">
-                        <span><i class="far fa-clock"></i> 2 dias</span>
-                        <span><i class="fas fa-tag"></i> Praia</span>
+            <!-- Roteiro 2 -->
+            <div class="col-md-4">
+                <div class="roteiro-card">
+                    <div class="roteiro-img">
+                        <img src="{{ url_for('static', filename='images/copacabana.jpg') }}" alt="Praias do Rio">
                     </div>
-                    <p class="card-text">Um fim de semana relaxante conhecendo as melhores praias da cidade maravilhosa. De Copacabana a Grumari, um roteiro completo para os amantes do mar.</p>
-                    <div class="card-footer">
-                        <div class="card-rating">
+                    <div class="roteiro-info">
+                        <h3>Praias do Rio - 2 dias</h3>
+                        <div class="rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -205,180 +164,77 @@
                             <i class="far fa-star"></i>
                             <span>4.0</span>
                         </div>
-                        <a href="/{{ lang }}/roteiros/praias-rio" class="btn">{{ translations[lang].sections.itineraries.button }}</a>
+                        <p>Um fim de semana relaxante conhecendo as melhores praias da cidade maravilhosa.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="price">R$ 89,90</span>
+                            <a href="{{ url_for('roteiro_detalhe', lang=lang, roteiro_slug='praias-rio') }}" class="btn btn-sm btn-outline-primary">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Roteiro 3 -->
+            <div class="col-md-4">
+                <div class="roteiro-card">
+                    <div class="roteiro-img">
+                        <img src="{{ url_for('static', filename='images/gastronomia-rj.jpg') }}" alt="Rio Gastronômico">
+                    </div>
+                    <div class="roteiro-info">
+                        <h3>Rio Gastronômico - 4 dias</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>4.8</span>
+                        </div>
+                        <p>Experimente o melhor da gastronomia carioca neste roteiro para verdadeiros amantes da boa comida.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="price">R$ 159,90</span>
+                            <a href="{{ url_for('roteiro_detalhe', lang=lang, roteiro_slug='rio-gastronomico') }}" class="btn btn-sm btn-outline-primary">Ver Detalhes</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="section-footer">
-            <a href="/{{ lang }}/roteiros" class="btn btn-outline">{{ translations[lang].sections.itineraries.button }}</a>
+        
+        <div class="text-center mt-4">
+            <a href="{{ url_for('roteiros_lista', lang=lang) }}" class="btn btn-primary">
+                {% if translations[lang].buttons is defined and translations[lang].buttons.view_all is defined %}
+                    {{ translations[lang].buttons.view_all }}
+                {% else %}
+                    Ver Todos os Roteiros
+                {% endif %}
+            </a>
         </div>
     </div>
 </section>
 
-<!-- Blog Section -->
-<section class="section">
+<!-- Call to Action Section -->
+<section class="cta-section">
     <div class="container">
-        <div class="section-header">
-            <span class="section-subtitle">{{ translations[lang].sections.blog.subtitle }}</span>
-            <h2 class="section-title">{{ translations[lang].sections.blog.title }}</h2>
-        </div>
-        <div class="blog-grid">
-            <!-- Blog Post 1 -->
-            <div class="blog-card">
-                <div class="blog-image">
-                    <img src="/static/images/blog-featured.jpg" alt="Blog post" class="img-fluid">
-                    <div class="blog-date">
-                        <span class="day">12</span>
-                        <span class="month">Mai</span>
-                    </div>
-                </div>
-                <div class="blog-content">
-                    <div class="blog-category">Dicas de Viagem</div>
-                    <h3 class="blog-title"><a href="/{{ lang }}/blog/dicas-rio">10 Dicas para Aproveitar o Melhor do Rio</a></h3>
-                    <p class="blog-excerpt">Descubra como aproveitar ao máximo sua viagem ao Rio de Janeiro com estas dicas essenciais que todo viajante deveria conhecer.</p>
-                    <a href="/{{ lang }}/blog/dicas-rio" class="read-more">{{ translations[lang].sections.blog.button }} <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Blog Post 2 -->
-            <div class="blog-card">
-                <div class="blog-image">
-                    <img src="/static/images/blog2.jpg" alt="Blog post" class="img-fluid">
-                    <div class="blog-date">
-                        <span class="day">05</span>
-                        <span class="month">Mai</span>
-                    </div>
-                </div>
-                <div class="blog-content">
-                    <div class="blog-category">Atrações</div>
-                    <h3 class="blog-title"><a href="/{{ lang }}/blog/praias-secretas">Praias Secretas que Você Precisa Conhecer</a></h3>
-                    <p class="blog-excerpt">Conheça as praias menos conhecidas do Rio de Janeiro que oferecem beleza natural e tranquilidade longe das multidões.</p>
-                    <a href="/{{ lang }}/blog/praias-secretas" class="read-more">{{ translations[lang].sections.blog.button }} <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-            
-            <!-- Blog Post 3 -->
-            <div class="blog-card">
-                <div class="blog-image">
-                    <img src="/static/images/blog3.jpg" alt="Blog post" class="img-fluid">
-                    <div class="blog-date">
-                        <span class="day">01</span>
-                        <span class="month">Mai</span>
-                    </div>
-                </div>
-                <div class="blog-content">
-                    <div class="blog-category">Gastronomia</div>
-                    <h3 class="blog-title"><a href="/{{ lang }}/blog/restaurantes-tradicionais">5 Restaurantes Tradicionais Cariocas</a></h3>
-                    <p class="blog-excerpt">Descubra onde os cariocas realmente comem e experimente a autêntica culinária local em restaurantes tradicionais do Rio.</p>
-                    <a href="/{{ lang }}/blog/restaurantes-tradicionais" class="read-more">{{ translations[lang].sections.blog.button }} <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="section-footer">
-            <a href="/{{ lang }}/blog" class="btn btn-outline">{{ translations[lang].sections.blog.button }}</a>
-        </div>
-    </div>
-</section>
-
-<!-- Community Section -->
-<section class="section bg-light">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-subtitle">{{ translations[lang].sections.community.subtitle }}</span>
-            <h2 class="section-title">{{ translations[lang].sections.community.title }}</h2>
-        </div>
-        <div class="community-grid">
-            <!-- Community Post 1 -->
-            <div class="community-card">
-                <div class="community-header">
-                    <img src="/static/images/user1.jpg" alt="User" class="community-user-img">
-                    <div class="community-user-info">
-                        <h4 class="community-user-name">Marina Costa</h4>
-                        <p class="community-post-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> Cristo Redentor</span>
-                            <span><i class="far fa-clock"></i> 2 dias atrás</span>
-                        </p>
-                    </div>
-                </div>
-                <div class="community-content">
-                    <p>Finalmente conheci o Cristo Redentor! A vista é simplesmente incrível, dá para ver toda a cidade. Recomendo ir bem cedo para evitar filas.</p>
-                    <div class="community-images">
-                        <img src="/static/images/community1.jpg" alt="Community post" class="img-fluid">
-                    </div>
-                    <div class="community-actions">
-                        <button class="community-action"><i class="far fa-heart"></i> 45</button>
-                        <button class="community-action"><i class="far fa-comment"></i> 12</button>
-                        <button class="community-action"><i class="far fa-bookmark"></i></button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Community Post 2 -->
-            <div class="community-card">
-                <div class="community-header">
-                    <img src="/static/images/user2.jpg" alt="User" class="community-user-img">
-                    <div class="community-user-info">
-                        <h4 class="community-user-name">Carlos Oliveira</h4>
-                        <p class="community-post-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> Copacabana</span>
-                            <span><i class="far fa-clock"></i> 3 dias atrás</span>
-                        </p>
-                    </div>
-                </div>
-                <div class="community-content">
-                    <p>Pôr do sol em Copacabana é sempre um espetáculo! Quem mais ama esse momento mágico? #RioDeJaneiro #Copacabana #PorDoSol</p>
-                    <div class="community-images">
-                        <img src="/static/images/community2.jpg" alt="Community post" class="img-fluid">
-                    </div>
-                    <div class="community-actions">
-                        <button class="community-action"><i class="far fa-heart"></i> 78</button>
-                        <button class="community-action"><i class="far fa-comment"></i> 23</button>
-                        <button class="community-action"><i class="far fa-bookmark"></i></button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Community Post 3 -->
-            <div class="community-card">
-                <div class="community-header">
-                    <img src="/static/images/user3.jpg" alt="User" class="community-user-img">
-                    <div class="community-user-info">
-                        <h4 class="community-user-name">Ana Luiza</h4>
-                        <p class="community-post-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> Pão de Açúcar</span>
-                            <span><i class="far fa-clock"></i> 5 dias atrás</span>
-                        </p>
-                    </div>
-                </div>
-                <div class="community-content">
-                    <p>Dica: o bondinho do Pão de Açúcar tem horários menos movimentados no final da tarde. Consegui fazer ótimas fotos do pôr do sol sem multidões!</p>
-                    <div class="community-images">
-                        <img src="/static/images/community3.jpg" alt="Community post" class="img-fluid">
-                    </div>
-                    <div class="community-actions">
-                        <button class="community-action"><i class="far fa-heart"></i> 56</button>
-                        <button class="community-action"><i class="far fa-comment"></i> 8</button>
-                        <button class="community-action"><i class="far fa-bookmark"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="section-footer">
-            <a href="/{{ lang }}/comunidade" class="btn btn-outline">{{ translations[lang].sections.community.button }}</a>
-        </div>
-    </div>
-</section>
-
-<!-- Newsletter -->
-<section class="newsletter">
-    <div class="container">
-        <h2 class="newsletter-title">{{ translations[lang].newsletter.title }}</h2>
-        <p>{{ translations[lang].newsletter.subtitle }}</p>
-        <form class="newsletter-form">
-            <input type="email" class="newsletter-input" placeholder="{{ translations[lang].newsletter.placeholder }}">
-            <button type="submit" class="newsletter-btn">{{ translations[lang].newsletter.button }}</button>
-        </form>
+        <h2>
+            {% if translations[lang].sections is defined and translations[lang].sections.cta_title is defined %}
+                {{ translations[lang].sections.cta_title }}
+            {% else %}
+                Planeje sua viagem dos sonhos!
+            {% endif %}
+        </h2>
+        <p class="mb-4">
+            {% if translations[lang].sections is defined and translations[lang].sections.cta_text is defined %}
+                {{ translations[lang].sections.cta_text }}
+            {% else %}
+                Deixe-nos ajudar você a criar memórias inesquecíveis no Rio de Janeiro.
+            {% endif %}
+        </p>
+        <a href="{{ url_for('roteiros_lista', lang=lang) }}" class="btn btn-lg btn-primary">
+            {% if translations[lang].buttons is defined and translations[lang].buttons.start_planning is defined %}
+                {{ translations[lang].buttons.start_planning }}
+            {% else %}
+                Começar a Planejar
+            {% endif %}
+        </a>
     </div>
 </section>
 {% endblock %}
