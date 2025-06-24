@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {# O título da página agora usa os dados do roteiro passados pelo Flask #}
+    <title>{{ roteiro.titulo_padrao }} - Vou Livre</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    {# Usando url_for para garantir que o caminho para o CSS esteja sempre correto #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Estilos específicos para a página de detalhes do roteiro */
+        body {
+            background-color: #f9f9f9;
+        }
+        .itinerary-detail-header {
+            background-size: cover;
+            background-position: center;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            padding: 20px;
+        }
+        .itinerary-detail-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.55);
+        }
+        .itinerary-detail-header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        .itinerary-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        .itinerary-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: 400;
+        }
+
+        .itinerary-main-content {
+            padding: 40px 0;
+        }
+        .itinerary-section {
+            background-color: #fff;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .itinerary-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color, #1a73e8);
+            padding-bottom: 10px;
+        }
+        .day-schedule h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color, #1a73e8);
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        .day-schedule h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #555;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+        .day-schedule p, .day-schedule li {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #444;
+        }
+        .day-schedule ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .day-schedule li::before {
+            content: "✓";
+            color: var(--primary-color, #1a73e8);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        .tip-box {
+            background-color: #eef7ff;
+            border-left: 5px solid var(--primary-color, #1a73e8);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .buy-sticky-bar {
+            position: sticky;
+            bottom: 0;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .buy-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+        }
+        .buy-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            flex-grow: 1;
+            max-width: 400px;
+        }
+
+    </style>
+</head>
+<body>
+    {# Para o projeto final, o ideal seria ter um `layout.html` e usar `{% extends "layout.html" %}` #}
+    {# e `{% block content %}` para não repetir o header e footer. #}
+    {# Por enquanto, esta estrutura completa funciona. #}
+
+    <main>
+        {# Cabeçalho dinâmico com a imagem e título do roteiro #}
+        <header class="itinerary-detail-header" style="background-image: url('{{ roteiro.imagem_url }}');">
+            <div class="itinerary-detail-header-content">
+                <h1 class="itinerary-title">{{ roteiro.titulo_padrao }}</h1>
+                <p class="itinerary-subtitle">{{ roteiro.descricao_padrao }}</p>
+            </div>
+        </header>
+
+        <div class="container itinerary-main-content">
+            <div class="itinerary-section">
+                <h2>Programação Detalhada</h2>
+
+                {# Dia 1: Cristo, Copacabana e Forte #}
+                <div class="day-schedule">
+                    <h3>Dia 1: Cristo, Copacabana e Noite na Orla</h3>
+                    <h4>Manhã: Cristo Redentor</h4>
+                    <p>Comece o dia visitando uma das Sete Maravilhas do Mundo. A sugestão é chegar antes das 8h para evitar filas. Você pode subir com o Trem do Corcovado, vans oficiais ou transporte por aplicativo.</p>
+                    
+                    <h4>Tarde: Praia e Forte de Copacabana</h4>
+                    <p>Após o Cristo, siga para a icônica Praia de Copacabana. Almoce em um dos quiosques à beira-mar e aproveite para relaxar. Ao final da tarde (por volta das 17h30), visite o Forte de Copacabana para vistas incríveis e um café na Confeitaria Colombo. A entrada é gratuita às terças-feiras.</p>
+
+                    <h4>Noite: Passeio e Jantar</h4>
+                    <p>Caminhe pela famosa orla de Copacabana, passando pelo hotel Copacabana Palace. Para o jantar, uma sugestão é a pizzaria Stalos.</p>
+                    <div class="tip-box">
+                        <strong>Dica:</strong> O Posto 6 em Copacabana tem o mar mais calmo, ideal para nadar e praticar stand-up paddle.
+                    </div>
+                </div>
+
+                {# Dia 2: Natureza e Cultura #}
+                <div class="day-schedule">
+                    <h3>Dia 2: Arte, Natureza e a Lagoa</h3>
+                    <h4>Manhã: Parque Lage e Jardim Botânico</h4>
+                    <p>Inicie o dia com um café da manhã no palacete do Parque Lage (reserve com antecedência). Depois, caminhe até o vizinho Jardim Botânico para explorar suas famosas palmeiras imperiais, o orquidário e as estufas.</p>
+
+                    <h4>Tarde: Lagoa Rodrigo de Freitas</h4>
+                    <p>Alugue uma bicicleta ou pedalinho para curtir a Lagoa. A ciclovia tem 7,5 km e oferece vistas deslumbrantes. É o lugar perfeito para relaxar, tomar uma água de coco e sentir o clima carioca.</p>
+                </div>
+                
+                {# Dia 3: Centro Histórico #}
+                <div class="day-schedule">
+                    <h3>Dia 3: Centro Histórico e Cultural</h3>
+                    <h4>Manhã: AquaRio e Museu do Amanhã</h4>
+                    <p>Explore o maior aquário da América Latina, o AquaRio, e em seguida visite o Museu do Amanhã, com sua arquitetura impressionante e exposições sobre ciência e tecnologia na Praça Mauá.</p>
+                    
+                    <h4>Tarde: Tesouros do Centro</h4>
+                    <p>Visite o Mosteiro de São Bento, com sua arquitetura barroca. Depois, explore a Biblioteca Nacional e termine o dia com uma visita ao Theatro Municipal. Para um lanche, conheça a histórica Confeitaria Colombo no centro.</p>
+                </div>
+
+                {# Outras Atividades #}
+                 <div class="day-schedule">
+                    <h3>Mais Opções e Vida Noturna</h3>
+                    <h4>Aventura e Vistas</h4>
+                     <ul>
+                        <li><strong>Pão de Açúcar:</strong> Suba de bondinho para ter uma vista de 360 graus da cidade. Ideal para o pôr do sol.</li>
+                        <li><strong>Voo de Asa Delta:</strong> Para os mais aventureiros, um voo saindo da Pedra Bonita com pouso na praia de São Conrado.</li>
+                    </ul>
+                    <h4>Lapa e Santa Teresa</h4>
+                     <ul>
+                        <li><strong>Escadaria Selarón e Arcos da Lapa:</strong> Conheça os famosos arcos e os azulejos coloridos da escadaria.</li>
+                         <li><strong>Bondinho de Santa Teresa:</strong> Pegue o bondinho para explorar o charmoso bairro, seus ateliês e bares.</li>
+                    </ul>
+                    <h4>Vida Noturna</h4>
+                     <ul>
+                         <li><strong>Pedra do Sal:</strong> O berço do samba carioca, com rodas de samba autênticas às segundas-feiras.</li>
+                         <li><strong>Rio Scenarium:</strong> Famoso clube de samba e forró com três andares na Lapa.</li>
+                         <li><strong>Bares em Botafogo e Ipanema:</strong> Explore a Rua Arnaldo Quintela em Botafogo ou o Boteco Boa Praça em Ipanema.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="itinerary-section">
+                <h2>Dicas de Viagem</h2>
+                <h4>Aeroportos</h4>
+                <p>O Rio possui dois aeroportos: Santos Dumont (SDU), mais central e com pouso cênico, e Galeão (GIG). Ambos têm fácil acesso a transporte por aplicativo. Uma dica é sempre comparar os preços entre Uber e 99.</p>
+                <h4>Hospedagem</h4>
+                <p>A Zona Sul (Copacabana, Ipanema, Botafogo, etc.) é a região mais recomendada por ser próxima das principais atrações turísticas e ter uma vasta gama de serviços.</p>
+            </div>
+        </div>
+    </main>
+
+    {# Barra de compra que fica fixa na parte inferior da tela #}
+    <div class="buy-sticky-bar">
+        <div class="buy-price">
+            {{ 'R$' }} {{ roteiro.preco }}
+        </div>
+        <a href="#" class="btn btn-accent buy-button">
+            Comprar Guia Completo Agora
+        </a>
+    </div>
+
+</body>
+</html>
