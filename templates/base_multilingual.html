@@ -18,16 +18,40 @@
     <!-- Header -->
     <header class="header">
         <div class="container header-container">
-            <a href="{{ url_for('public.index', lang=lang|default('pt')) }}" class="logo-link">
+            <a href="{{ url_for('home', lang=lang) }}" class="logo-link">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Vou Livre Logo" class="logo">
             </a>
             
             <nav class="nav">
                 <ul class="nav-list">
-                    <li><a href="{{ url_for('public.index', lang=lang|default('pt')) }}">Início</a></li>
-                    <li><a href="{{ url_for('public.roteiros', lang=lang|default('pt')) }}">Roteiros</a></li>
-                    <li><a href="{{ url_for('public.blog', lang=lang|default('pt')) }}">Blog</a></li>
-                    <li><a href="{{ url_for('public.destinos', lang=lang|default('pt')) }}">Destinos</a></li>
+                    <li><a href="{{ url_for('home', lang=lang) }}">
+                        {% if translations[lang].nav is defined %}
+                            {{ translations[lang].nav.home }}
+                        {% else %}
+                            Início
+                        {% endif %}
+                    </a></li>
+                    <li><a href="{{ url_for('roteiros_lista', lang=lang) }}">
+                        {% if translations[lang].nav is defined %}
+                            {{ translations[lang].nav.itineraries }}
+                        {% else %}
+                            Roteiros
+                        {% endif %}
+                    </a></li>
+                    <li><a href="{{ url_for('blog', lang=lang) }}">
+                        {% if translations[lang].nav is defined %}
+                            {{ translations[lang].nav.blog }}
+                        {% else %}
+                            Blog
+                        {% endif %}
+                    </a></li>
+                    <li><a href="{{ url_for('destinations', lang=lang) }}">
+                        {% if translations[lang].nav is defined %}
+                            {{ translations[lang].nav.destinations }}
+                        {% else %}
+                            Destinos
+                        {% endif %}
+                    </a></li>
                 </ul>
                 <div class="nav-icons">
                     <a href="#" class="nav-icon"><i class="fas fa-search"></i></a>
@@ -45,7 +69,13 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Vou Livre. Todos os direitos reservados.</p>
+            <p>&copy; 2025 Vou Livre. 
+                {% if translations[lang].footer is defined and translations[lang].footer.rights is defined %}
+                    {{ translations[lang].footer.rights }}
+                {% else %}
+                    Todos os direitos reservados.
+                {% endif %}
+            </p>
         </div>
     </footer>
 
