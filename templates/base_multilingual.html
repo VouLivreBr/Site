@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {# O bloco 'title' será preenchido por cada página filha #}
     <title>{% block title %}Vou Livre{% endblock %}</title>
     
     <!-- Fontes e Ícones -->
@@ -11,51 +10,46 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     
     <!-- CSS Principal -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css' ) }}">
     
-    {# Bloco para estilos CSS específicos de cada página #}
     {% block styles %}{% endblock %}
 </head>
 <body>
-    <!-- ======================= Header ======================= -->
+    <!-- Header -->
     <header class="header">
         <div class="container header-container">
-            <a href="{{ url_for('home', lang=lang) }}" class="logo-link">
-                {# Assumindo que você tem uma logo padrão. Ajuste o caminho se necessário. #}
-                <img src="{{ url_for('static', filename='images/default_logo.png') }}" alt="Vou Livre Logo" class="logo">
+            <a href="{{ url_for('public.index', lang=lang|default('pt')) }}" class="logo-link">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Vou Livre Logo" class="logo">
             </a>
             
             <nav class="nav">
                 <ul class="nav-list">
-                    {# Exemplo de links de navegação. Adapte com os seus. #}
-                    <li><a href="{{ url_for('home', lang=lang) }}">{{ translations[lang].nav.home }}</a></li>
-                    <li><a href="{{ url_for('roteiros_lista', lang=lang) }}">{{ translations[lang].nav.itineraries }}</a></li>
-                    <li><a href="{{ url_for('destinations', lang=lang) }}">{{ translations[lang].nav.destinations }}</a></li>
-                    <li><a href="{{ url_for('blog', lang=lang) }}">{{ translations[lang].nav.blog }}</a></li>
+                    <li><a href="{{ url_for('public.index', lang=lang|default('pt')) }}">Início</a></li>
+                    <li><a href="{{ url_for('public.roteiros', lang=lang|default('pt')) }}">Roteiros</a></li>
+                    <li><a href="{{ url_for('public.blog', lang=lang|default('pt')) }}">Blog</a></li>
+                    <li><a href="{{ url_for('public.destinos', lang=lang|default('pt')) }}">Destinos</a></li>
                 </ul>
                 <div class="nav-icons">
-                    {# Ícones da navegação #}
+                    <a href="#" class="nav-icon"><i class="fas fa-search"></i></a>
+                    <a href="#" class="nav-icon"><i class="fas fa-user"></i></a>
                 </div>
             </nav>
         </div>
     </header>
 
-    <!-- ======================= Conteúdo Principal da Página ======================= -->
+    <!-- Conteúdo Principal -->
     <main>
-        {# O conteúdo de cada página (index.html, etc.) será inserido aqui #}
         {% block content %}{% endblock %}
     </main>
 
-    <!-- ======================= Footer ======================= -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            {# Conteúdo do seu rodapé aqui #}
-            <p>&copy; {% now 'local', '%Y' %} Vou Livre. {{ translations[lang].footer.rights }}</p>
+            <p>&copy; 2025 Vou Livre. Todos os direitos reservados.</p>
         </div>
     </footer>
 
-    {# Bloco para scripts JS específicos de cada página #}
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
-
