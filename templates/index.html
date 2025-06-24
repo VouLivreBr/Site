@@ -1,240 +1,344 @@
-{% extends "base_multilingual.html" %}
+<!DOCTYPE html>
+<html lang="{{ lang }}"> {# lang agora é dinâmico, vindo do Flask #}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ translations[lang]['app_title'] if lang in translations else 'Vou Livre BR' }}</title> {# Título da aba do navegador dinâmico #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
 
-{% block title %}
-    {% if translations[lang].site_name is defined %}
-        {{ translations[lang].site_name }} - {{ translations[lang].site_tagline }}
-    {% else %}
-        Vou Livre - Seu guia de viagens
-    {% endif %}
-{% endblock %}
-
-{% block styles %}
-<style>
-    .hero {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{{ url_for('static', filename='images/rio-banner.jpg') }}");
-        background-size: cover;
-        background-position: center;
-        color: white;
-        padding: 100px 0;
-        text-align: center;
-    }
-    
-    .hero h1 {
-        font-size: 3rem;
-        margin-bottom: 20px;
-    }
-    
-    .hero p {
-        font-size: 1.5rem;
-        margin-bottom: 30px;
-    }
-    
-    .featured-roteiros {
-        padding: 60px 0;
-    }
-    
-    .roteiro-card {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
-        transition: transform 0.3s;
-    }
-    
-    .roteiro-card:hover {
-        transform: translateY(-5px);
-    }
-    
-    .roteiro-img {
-        height: 200px;
-        overflow: hidden;
-    }
-    
-    .roteiro-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .roteiro-info {
-        padding: 20px;
-    }
-    
-    .roteiro-info h3 {
-        margin-top: 0;
-        margin-bottom: 10px;
-    }
-    
-    .roteiro-info .price {
-        font-weight: bold;
-        color: #1a73e8;
-    }
-    
-    .rating {
-        color: #ffc107;
-        margin-bottom: 10px;
-    }
-    
-    .cta-section {
-        background-color: #f8f9fa;
-        padding: 60px 0;
-        text-align: center;
-    }
-</style>
-{% endblock %}
-
-{% block content %}
-<!-- Hero Section -->
-<section class="hero">
-    <div class="container">
-        <h1>
-            {% if site_config %}
-                {{ site_config.titulo_pagina_inicial }}
-            {% else %}
-                Bem-vindo ao Vou Livre BR!
-            {% endif %}
-        </h1>
-        <p>
-            {% if site_config %}
-                {{ site_config.subtitulo_pagina_inicial }}
-            {% else %}
-                Sua Aventura Começa Aqui!
-            {% endif %}
-        </p>
-        <a href="{{ url_for('roteiros_lista', lang=lang) }}" class="btn btn-primary">
-            {% if translations[lang].buttons is defined and translations[lang].buttons.explore is defined %}
-                {{ translations[lang].buttons.explore }}
-            {% else %}
-                Explorar Roteiros
-            {% endif %}
-        </a>
-    </div>
-</section>
-
-<!-- Featured Roteiros Section -->
-<section class="featured-roteiros">
-    <div class="container">
-        <h2 class="text-center mb-5">
-            {% if translations[lang].sections is defined and translations[lang].sections.featured_itineraries is defined %}
-                {{ translations[lang].sections.featured_itineraries }}
-            {% else %}
-                Roteiros em Destaque
-            {% endif %}
-        </h2>
-        
-        <div class="row">
-            <!-- Roteiro 1 -->
-            <div class="col-md-4">
-                <div class="roteiro-card">
-                    <div class="roteiro-img">
-                        <img src="{{ url_for('static', filename='images/cristo.jpg') }}" alt="Rio Clássico">
-                    </div>
-                    <div class="roteiro-info">
-                        <h3>Rio Clássico - 3 dias</h3>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span>4.5</span>
-                        </div>
-                        <p>Conheça os principais pontos turísticos do Rio de Janeiro em um roteiro completo de 3 dias.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="price">R$ 129,90</span>
-                            <a href="{{ url_for('roteiro_detalhe', lang=lang, roteiro_slug='rio-classico') }}" class="btn btn-sm btn-outline-primary">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Roteiro 2 -->
-            <div class="col-md-4">
-                <div class="roteiro-card">
-                    <div class="roteiro-img">
-                        <img src="{{ url_for('static', filename='images/copacabana.jpg') }}" alt="Praias do Rio">
-                    </div>
-                    <div class="roteiro-info">
-                        <h3>Praias do Rio - 2 dias</h3>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span>4.0</span>
-                        </div>
-                        <p>Um fim de semana relaxante conhecendo as melhores praias da cidade maravilhosa.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="price">R$ 89,90</span>
-                            <a href="{{ url_for('roteiro_detalhe', lang=lang, roteiro_slug='praias-rio') }}" class="btn btn-sm btn-outline-primary">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Roteiro 3 -->
-            <div class="col-md-4">
-                <div class="roteiro-card">
-                    <div class="roteiro-img">
-                        <img src="{{ url_for('static', filename='images/gastronomia-rj.jpg') }}" alt="Rio Gastronômico">
-                    </div>
-                    <div class="roteiro-info">
-                        <h3>Rio Gastronômico - 4 dias</h3>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span>4.8</span>
-                        </div>
-                        <p>Experimente o melhor da gastronomia carioca neste roteiro para verdadeiros amantes da boa comida.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="price">R$ 159,90</span>
-                            <a href="{{ url_for('roteiro_detalhe', lang=lang, roteiro_slug='rio-gastronomico') }}" class="btn btn-sm btn-outline-primary">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="text-center mt-4">
-            <a href="{{ url_for('roteiros_lista', lang=lang) }}" class="btn btn-primary">
-                {% if translations[lang].buttons is defined and translations[lang].buttons.view_all is defined %}
-                    {{ translations[lang].buttons.view_all }}
-                {% else %}
-                    Ver Todos os Roteiros
-                {% endif %}
+    {# Estilos para as cores dinâmicas (se você decidir aplicá-las) #}
+    <style>
+        :root {
+            --primary-color: {{ site_config.cor_primaria if site_config else '#1a73e8' }};
+            --secondary-color: {{ site_config.cor_secundaria if site_config else '#ffffff' }};
+            /* Adicione mais variáveis CSS baseadas nas configurações do site, se houver */
+        }
+        /* Exemplo de uso: .btn { background-color: var(--primary-color); } */
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="/{{ lang }}/" class="logo-link"> {# Link da logo agora inclui o idioma #}
+                <img src="{{ site_config.logo_url if site_config else '/static/images/default_logo.png' }}" alt="Vou Livre" class="logo" width="300x300"> {# Logo URL dinâmica #}
             </a>
-        </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    {# Links de navegação agora são dinâmicos e traduzidos #}
+                    <li class="nav-item"><a href="/{{ lang }}/" class="nav-link">{{ translations[lang]['home'] if lang in translations else 'Home' }}</a></li>
+                    <li class="nav-item"><a href="/{{ lang }}/roteiros" class="nav-link">{{ translations[lang]['itineraries'] if lang in translations else 'Itineraries' }}</a></li>
+                    <li class="nav-item"><a href="/{{ lang }}/destinos" class="nav-link">{{ translations[lang]['destinations'] if lang in translations else 'Destinations' }}</a></li>
+                    <li class="nav-item"><a href="/{{ lang }}/blog" class="nav-link">{{ translations[lang]['blog'] if lang in translations else 'Blog' }}</a></li>
+                    <li class="nav-item"><a href="/{{ lang }}/comunidade" class="nav-link">{{ translations[lang]['community'] if lang in translations else 'Community' }}</a></li>
+                    <li class="nav-item"><a href="/{{ lang }}/loja" class="nav-link">{{ translations[lang]['shop'] if lang in translations else 'Shop' }}</a></li>
+                </ul>
+                <div class="nav-icons">
+    <a href="/{{ lang }}/busca" class="nav-icon"><i class="fas fa-search"></i></a>
+    <a href="/{{ lang }}/perfil" class="nav-icon"><i class="fas fa-user"></i></a>
+    <a href="/{{ lang }}/carrinho" class="nav-icon"><i class="fas fa-shopping-cart"></i></a>
+</div>
+<div class="language-selector">
+    {# O current-lang será o elemento clicável para abrir/fechar o dropdown #}
+    <div class="current-lang">
+        <img src="/static/images/flags/{{ lang }}.png" alt="{{ lang }}" class="lang-flag">
+        <span class="lang-text">{{ lang.upper() }}</span> {# Mostra PT, EN ou ES #}
+        <i class="fas fa-chevron-down"></i>
     </div>
-</section>
-
-<!-- Call to Action Section -->
-<section class="cta-section">
-    <div class="container">
-        <h2>
-            {% if translations[lang].sections is defined and translations[lang].sections.cta_title is defined %}
-                {{ translations[lang].sections.cta_title }}
-            {% else %}
-                Planeje sua viagem dos sonhos!
-            {% endif %}
-        </h2>
-        <p class="mb-4">
-            {% if translations[lang].sections is defined and translations[lang].sections.cta_text is defined %}
-                {{ translations[lang].sections.cta_text }}
-            {% else %}
-                Deixe-nos ajudar você a criar memórias inesquecíveis no Rio de Janeiro.
-            {% endif %}
-        </p>
-        <a href="{{ url_for('roteiros_lista', lang=lang) }}" class="btn btn-lg btn-primary">
-            {% if translations[lang].buttons is defined and translations[lang].buttons.start_planning is defined %}
-                {{ translations[lang].buttons.start_planning }}
-            {% else %}
-                Começar a Planejar
-            {% endif %}
+    {# Este é o dropdown que será exibido/ocultado #}
+    <div class="lang-dropdown">
+        {# Links para alternar idioma usando a rota change_language do Flask #}
+        <a href="{{ url_for('change_language', lang_code='pt') }}" class="lang-option">
+            <img src="/static/images/flags/pt.png" alt="Português" class="lang-flag"> Português
+        </a>
+        <a href="{{ url_for('change_language', lang_code='en') }}" class="lang-option">
+            <img src="/static/images/flags/en.png" alt="English" class="lang-flag"> English
+        </a>
+        <a href="{{ url_for('change_language', lang_code='es') }}" class="lang-option">
+            <img src="/static/images/flags/es.png" alt="Español" class="lang-flag"> Español
         </a>
     </div>
-</section>
-{% endblock %}
+</div>
+<div class="hamburger">
+    <i class="fas fa-bars"></i>
+</div>
+</nav>
+</div>
+</header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">{{ site_config.titulo_pagina_inicial if site_config else 'Descubra o Brasil com o Vou Livre' }}</h1> {# Título dinâmico #}
+                <p class="hero-text">{{ site_config.subtitulo_pagina_inicial if site_config else 'Planeje sua viagem perfeita, conecte-se com outros viajantes e explore novos destinos com nossos roteiros exclusivos.' }}</p> {# Subtítulo dinâmico #}
+                <a href="/{{ lang }}/roteiros" class="btn btn-accent">{{ translations[lang]['explore_itineraries'] if lang in translations else 'Explorar Roteiros' }}</a>
+            </div>
+        </div>
+    </section>
+
+<div class="container">
+    <div class="search-bar">
+        <form class="search-form">
+            <input type="text" class="search-input" placeholder="{{ translations[lang]['where_to_go'] if lang in translations else 'Para onde você quer ir?' }}">
+            
+            <div class="input-group">
+                <input type="date" class="search-input date-input" placeholder="{{ translations[lang]['arrival'] if lang in translations else 'Chegada' }}">
+                <input type="time" class="search-input time-input" value="14:00">
+            </div>
+            
+            <div class="input-group">
+                <input type="date" class="search-input date-input" placeholder="{{ translations[lang]['departure'] if lang in translations else 'Saída' }}">
+                <input type="time" class="search-input time-input" value="12:00">
+            </div>
+            
+            <select class="search-input">
+                <option value="">{{ translations[lang]['trip_type'] if lang in translations else 'Tipo de viagem' }}</option>
+                <option value="aventura">{{ translations[lang]['adventure'] if lang in translations else 'Aventura' }}</option>
+                <option value="cultural">{{ translations[lang]['cultural'] if lang in translations else 'Cultural' }}</option>
+                <option value="praia">{{ translations[lang]['beach'] if lang in translations else 'Praia' }}</option>
+                <option value="grupo">{{ translations[lang]['group'] if lang in translations else 'Grupo' }}</option> {# Corrigido para 'grupo' #}
+            </select>
+            
+            <button type="submit" class="btn search-btn">{{ translations[lang]['search'] if lang in translations else 'Buscar' }}</button>
+        </form>
+    </div>
+</div>
+
+    <section class="section">
+        <div class="container">
+            <p class="section-subtitle">{{ translations[lang]['explore_section_subtitle'] if lang in translations else 'Conheça' }}</p>
+            <h2 class="section-title">{{ translations[lang]['featured_destinations_title'] if lang in translations else 'Destinos em Destaque' }}</h2>
+            <div class="grid grid-4">
+                <div class="destination-card">
+                    <img src="/static/images/ipanema.jpg" alt="Ipanema" class="destination-img">
+                    <div class="destination-content">
+                        <h3 class="destination-title">{{ translations[lang]['ipanema_title'] if lang in translations else 'Ipanema' }}</h3>
+                        <p class="destination-location"><i class="fas fa-map-marker-alt"></i> {{ translations[lang]['rio_de_janeiro_location'] if lang in translations else 'Rio de Janeiro' }}</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <img src="/static/images/cristo-redentor.jpg" alt="Cristo Redentor" class="destination-img">
+                    <div class="destination-content">
+                        <h3 class="destination-title">{{ translations[lang]['christ_redeemer_title'] if lang in translations else 'Cristo Redentor' }}</h3>
+                        <p class="destination-location"><i class="fas fa-map-marker-alt"></i> {{ translations[lang]['rio_de_janeiro_location'] if lang in translations else 'Rio de Janeiro' }}</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <img src="/static/images/pao-de-acucar.jpg" alt="Pão de Açúcar" class="destination-img">
+                    <div class="destination-content">
+                        <h3 class="destination-title">{{ translations[lang]['sugarloaf_title'] if lang in translations else 'Pão de Açúcar' }}</h3>
+                        <p class="destination-location"><i class="fas fa-map-marker-alt"></i> {{ translations[lang]['rio_de_janeiro_location'] if lang in translations else 'Rio de Janeiro' }}</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <img src="/static/images/arcos-da-lapa.png" alt="Lapa" class="destination-img">
+                    <div class="destination-content">
+                        <h3 class="destination-title">{{ translations[lang]['lapa_title'] if lang in translations else 'Lapa' }}</h3>
+                        <p class="destination-location"><i class="fas fa-map-marker-alt"></i> {{ translations[lang]['rio_de_janeiro_location'] if lang in translations else 'Rio de Janeiro' }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 30px;">
+                <a href="/{{ lang }}/destinos" class="btn">{{ translations[lang]['view_all_destinations'] if lang in translations else 'Ver Todos os Destinos' }}</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: var(--gray);">
+        <div class="container">
+            <p class="section-subtitle">{{ translations[lang]['plan_section_subtitle'] if lang in translations else 'Planeje' }}</p>
+            <h2 class="section-title">{{ translations[lang]['popular_itineraries_title'] if lang in translations else 'Roteiros Populares' }}</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <img src="/static/images/arpoador.jpg" alt="Roteiro Clássico" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">{{ translations[lang]['classic_rio_title'] if lang in translations else 'Rio Clássico - 3 dias' }}</h3>
+                        <p class="card-text">{{ translations[lang]['classic_rio_description'] if lang in translations else 'Conheça os principais pontos turísticos do Rio de Janeiro em um roteiro completo de 3 dias.' }}</p>
+                        <p class="card-price">{{ translations[lang]['price_prefix'] if lang in translations else 'R$' }} 129,90</p>
+                        <div class="card-footer">
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.5</span>
+                            </div>
+                            <a href="/{{ lang }}/roteiros/rio-classico" class="btn btn-sm">{{ translations[lang]['view_details'] if lang in translations else 'Ver Detalhes' }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="/static/images/bondinho.jpg" alt="Roteiro Praias" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">{{ translations[lang]['rio_beaches_title'] if lang in translations else 'Praias do Rio - 2 dias' }}</h3>
+                        <p class="card-text">{{ translations[lang]['rio_beaches_description'] if lang in translations else 'Um fim de semana relaxante conhecendo as melhores praias da cidade maravilhosa.' }}</p>
+                        <p class="card-price">{{ translations[lang]['price_prefix'] if lang in translations else 'R$' }} 89,90</p>
+                        <div class="card-footer">
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>4.0</span>
+                            </div>
+                            <a href="/{{ lang }}/roteiros/praias-rio" class="btn btn-sm">{{ translations[lang]['view_details'] if lang in translations else 'Ver Detalhes' }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="/static/images/gastronomia-rj.jpg" alt="Roteiro Gastronômico" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">{{ translations[lang]['rio_gastronomy_title'] if lang in translations else 'Rio Gastronômico - 4 dias' }}</h3>
+                        <p class="card-text">{{ translations[lang]['rio_gastronomy_description'] if lang in translations else 'Experimente o melhor da gastronomia carioca neste roteiro para verdadeiros amantes da boa comida.' }}</p>
+                        <p class="card-price">{{ translations[lang]['price_prefix'] if lang in translations else 'R$' }} 159,90</p>
+                        <div class="card-footer">
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                            <a href="/{{ lang }}/roteiros/rio-gastronomico" class="btn btn-sm">{{ translations[lang]['view_details'] if lang in translations else 'Ver Detalhes' }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 30px;">
+                <a href="/{{ lang }}/roteiros" class="btn">{{ translations[lang]['view_all_itineraries'] if lang in translations else 'Ver Todos os Roteiros' }}</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <p class="section-subtitle">{{ translations[lang]['inspire_section_subtitle'] if lang in translations else 'Inspire-se' }}</p>
+            <h2 class="section-title">{{ translations[lang]['latest_blog_title'] if lang in translations else 'Últimas do Blog' }}</h2>
+            <div class="grid grid-2">
+                <div class="blog-card card">
+                    <img src="/static/images/rj-alto.jpg" alt="Dicas para viagem" class="card-img blog-img">
+                    <div class="card-content">
+                        <p class="blog-date">{{ translations[lang]['blog_date_1'] if lang in translations else '12 de Maio, 2025' }}</p>
+                        <h3 class="card-title">{{ translations[lang]['blog_post_1_title'] if lang in translations else '10 Dicas para Aproveitar o Melhor do Rio' }}</h3>
+                        <p class="blog-excerpt">{{ translations[lang]['blog_post_1_excerpt'] if lang in translations else 'Descubra como aproveitar ao máximo sua viagem ao Rio de Janeiro com estas dicas essenciais que todo viajante deveria conhecer.' }}</p>
+                        <a href="/{{ lang }}/blog/dicas-rio" class="btn btn-sm">{{ translations[lang]['read_more'] if lang in translations else 'Ler Mais' }}</a>
+                    </div>
+                </div>
+                <div class="blog-card card">
+                    <img src="/static/images/praia-urca.jpg" alt="Praias secretas" class="card-img blog-img">
+                    <div class="card-content">
+                        <p class="blog-date">{{ translations[lang]['blog_date_2'] if lang in translations else '5 de Maio, 2025' }}</p>
+                        <h3 class="card-title">{{ translations[lang]['blog_post_2_title'] if lang in translations else 'Praias Secretas que Você Precisa Conhecer' }}</h3>
+                        <p class="blog-excerpt">{{ translations[lang]['blog_post_2_excerpt'] if lang in translations else 'Conheça as praias menos conhecidas do Rio de Janeiro que oferecem beleza natural e tranquilidade longe das multidões.' }}</p>
+                        <a href="/{{ lang }}/blog/praias-secretas" class="btn btn-sm">{{ translations[lang]['read_more'] if lang in translations else 'Ler Mais' }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 30px;">
+                <a href="/{{ lang }}/blog" class="btn">{{ translations[lang]['view_all_posts'] if lang in translations else 'Ver Todos os Posts' }}</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background-color: var(--gray);">
+        <div class="container">
+            <p class="section-subtitle">{{ translations[lang]['connect_section_subtitle'] if lang in translations else 'Conecte-se' }}</p>
+            <h2 class="section-title">{{ translations[lang]['our_community_title'] if lang in translations else 'Nossa Comunidade' }}</h2>
+            <div class="grid grid-3">
+                <div class="card testimonial">
+                    <div class="testimonial-text">
+                        {{ translations[lang]['testimonial_1_text'] if lang in translations else '"Os roteiros do Vou Livre tornaram minha viagem ao Rio muito mais fácil e divertida. Consegui conhecer lugares que nunca encontraria sozinha!"' }}
+                    </div>
+                    <div class="testimonial-author">{{ translations[lang]['testimonial_1_author'] if lang in translations else 'Ana Luiza' }}</div>
+                    <div class="testimonial-role">{{ translations[lang]['testimonial_1_role'] if lang in translations else 'Viajante Solo' }}</div>
+                </div>
+                <div class="card testimonial">
+                    <div class="testimonial-text">
+                        {{ translations[lang]['testimonial_2_text'] if lang in translations else '"Usamos o planejador de viagem para organizar nosso fim de semana no Rio e foi perfeito! Economizamos tempo e dinheiro com as dicas."' }}
+                    </div>
+                    <div class="testimonial-author">{{ translations[lang]['testimonial_2_author'] if lang in translations else 'Carlos e Mariana' }}</div>
+                    <div class="testimonial-role">{{ translations[lang]['testimonial_2_role'] if lang in translations else 'Casal de São Paulo' }}</div>
+                </div>
+                <div class="card testimonial">
+                    <div class="testimonial-text">
+                        {{ translations[lang]['testimonial_3_text'] if lang in translations else '"A comunidade do Vou Livre é incrível! Fiz amigos antes mesmo de chegar ao Rio e acabamos fazendo vários passeios juntos."' }}
+                    </div>
+                    <div class="testimonial-author">{{ translations[lang]['testimonial_3_author'] if lang in translations else 'Pedro Henrique' }}</div>
+                    <div class="testimonial-role">{{ translations[lang]['testimonial_3_role'] if lang in translations else 'Mochileiro' }}</div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 30px;">
+                <a href="/{{ lang }}/comunidade" class="btn">{{ translations[lang]['join_community'] if lang in translations else 'Junte-se à Comunidade' }}</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <h2 class="newsletter-title">{{ translations[lang]['newsletter_title'] if lang in translations else 'Receba Novidades e Ofertas Exclusivas' }}</h2>
+            <p style="margin-bottom: 30px;">{{ translations[lang]['newsletter_subtitle'] if lang in translations else 'Inscreva-se em nossa newsletter e fique por dentro das novidades do Vou Livre.' }}</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="{{ translations[lang]['your_email_placeholder'] if lang in translations else 'Seu melhor e-mail' }}">
+                <button type="submit" class="newsletter-btn">{{ translations[lang]['subscribe_button'] if lang in translations else 'Inscrever-se' }}</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <img src="/static/images/fundo-logo.jpg" alt="Vou Livre" class="footer-logo"> {# Se quiser que a logo do footer seja dinâmica, mude para site_config.logo_url #}
+                    <p class="footer-about">{{ translations[lang]['footer_about_text'] if lang in translations else 'O Vou Livre é seu guia completo para explorar o Rio de Janeiro e outros destinos brasileiros. Planeje sua viagem, conecte-se com outros viajantes e descubra experiências incríveis.' }}</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="footer-title">{{ translations[lang]['quick_links_title'] if lang in translations else 'Links Rápidos' }}</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/{{ lang }}/">{{ translations[lang]['home'] if lang in translations else 'Início' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/roteiros">{{ translations[lang]['itineraries'] if lang in translations else 'Roteiros' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/destinos">{{ translations[lang]['destinations'] if lang in translations else 'Destinos' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/blog">{{ translations[lang]['blog'] if lang in translations else 'Blog' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/comunidade">{{ translations[lang]['community'] if lang in translations else 'Comunidade' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/loja">{{ translations[lang]['shop'] if lang in translations else 'Loja' }}</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">{{ translations[lang]['destinations_footer_title'] if lang in translations else 'Destinos' }}</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/{{ lang }}/destinos/copacabana">{{ translations[lang]['copacabana_footer'] if lang in translations else 'Copacabana' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/destinos/cristo-redentor">{{ translations[lang]['christ_redeemer_footer'] if lang in translations else 'Cristo Redentor' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/destinos/pao-de-acucar">{{ translations[lang]['sugarloaf_footer'] if lang in translations else 'Pão de Açúcar' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/destinos/lapa">{{ translations[lang]['lapa_footer'] if lang in translations else 'Lapa' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/destinos/ipanema">{{ translations[lang]['ipanema_footer'] if lang in translations else 'Ipanema' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/destinos/maracana">{{ translations[lang]['maracana_footer'] if lang in translations else 'Maracanã' }}</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">{{ translations[lang]['contact_title'] if lang in translations else 'Contato' }}</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/{{ lang }}/sobre">{{ translations[lang]['about_us_footer'] if lang in translations else 'Sobre Nós' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/contato">{{ translations[lang]['contact_us_footer'] if lang in translations else 'Fale Conosco' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/faq">{{ translations[lang]['faq_footer'] if lang in translations else 'Perguntas Frequentes' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/termos">{{ translations[lang]['terms_of_use_footer'] if lang in translations else 'Termos de Uso' }}</a></li>
+                        <li class="footer-link"><a href="/{{ lang }}/privacidade">{{ translations[lang]['privacy_policy_footer'] if lang in translations else 'Política de Privacidade' }}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Vou Livre. {{ translations[lang]['all_rights_reserved'] if lang in translations else 'Todos os direitos reservados.' }}</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+</body>
