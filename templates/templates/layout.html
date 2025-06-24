@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {# O bloco 'title' pode ser substituído em cada página filha #}
+    <title>{% block title %}Vou Livre{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {# Bloco para estilos CSS específicos de cada página #}
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    {# Se você tiver um header/navbar como um arquivo separado, pode usar {% include 'header.html' %} #}
+    {# Por enquanto, vamos manter o conteúdo principal #}
+
+    <main>
+        {# O conteúdo principal de cada página será inserido aqui #}
+        {% block content %}{% endblock %}
+    </main>
+
+    {# Se você tiver um footer como um arquivo separado, pode usar {% include 'footer.html' %} #}
+
+    {# Bloco para scripts específicos de cada página #}
+    {% block scripts %}{% endblock %}
+</body>
+</html>
