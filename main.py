@@ -1,13 +1,10 @@
 import os
 import json
-import flask
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 # Configuração do sistema de arquivos
-# Certifique-se de que esta linha está correta para seu projeto
-# Ela adiciona o diretório pai ao PATH, útil se 'src' ou 'venv' estiverem em outro nível
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -15,242 +12,214 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 app = Flask(__name__)
 
 # --- Configurações do Flask e Banco de Dados ---
-# Chave Secreta para segurança de sessões. Use uma variável de ambiente em produção!
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'SUA_CHAVE_SECRETA_PADRAO_MUITO_FORTE_AQUI_123'
-
-# Configuração da URI do Banco de Dados
-# Em produção no Render, ele usará a DATABASE_URL. Localmente, usará sqlite:///site.db.
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///site.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Desativa avisos de rastreamento de modificações, economiza memória
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Inicialização do SQLAlchemy e Flask-Migrate (APENAS UMA VEZ)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+# --- DADOS TEMPORÁRIOS PARA OS ROTEIROS ---
+# No futuro, isso virá de uma tabela do banco de dados.
+DADOS_ROTEIROS = {
+    "rio-classico": {
+        "titulo_chave": "classic_rio_title",
+        "titulo_padrao": "Rio Clássico - 3 dias",
+        "descricao_chave": "classic_rio_description",
+        "descricao_padrao": "Conheça os principais pontos turísticos do Rio de Janeiro em um roteiro completo de 3 dias.",
+        "imagem_url": "/static/images/arpoador.jpg",
+        "preco": "129,90",
+        "rating": 4.5,
+        "detalhes_longos": "Este roteiro de 3 dias é perfeito para quem visita o Rio pela primeira vez. No primeiro dia, exploramos o Cristo Redentor e o Pão de Açúcar. O segundo dia é dedicado às praias de Copacabana e Ipanema, com um pôr do sol inesquecível no Arpoador. O terceiro dia cobre o centro histórico, a Escadaria Selarón e os Arcos da Lapa."
+    },
+    "praias-rio": {
+        "titulo_chave": "rio_beaches_title",
+        "titulo_padrao": "Praias do Rio - 2 dias",
+        "descricao_chave": "rio_beaches_description",
+        "descricao_padrao": "Um fim de semana relaxante conhecendo as melhores praias da cidade maravilhosa.",
+        "imagem_url": "/static/images/bondinho.jpg",
+        "preco": "89,90",
+        "rating": 4.0,
+        "detalhes_longos": "Relaxe e aproveite o sol nas famosas praias do Rio. Este roteiro inclui um dia em Copacabana e Leme, e outro dia explorando as belezas de Ipanema e Leblon. Inclui dicas dos melhores quiosques e atividades na areia."
+    },
+    "rio-gastronomico": {
+        "titulo_chave": "rio_gastronomy_title",
+        "titulo_padrao": "Rio Gastronômico - 4 dias",
+        "descricao_chave": "rio_gastronomy_description",
+        "descricao_padrao": "Experimente o melhor da gastronomia carioca neste roteiro para verdadeiros amantes da boa comida.",
+        "imagem_url": "/static/images/gastronomia-rj.jpg",
+        "preco": "159,90",
+        "rating": 4.8,
+        "detalhes_longos": "Uma imersão nos sabores do Rio. Este roteiro te leva a restaurantes renomados, bares tradicionais da Lapa, feiras de rua e aulas de culinária para você aprender a fazer a sua própria feijoada e caipirinha."
+    }
+}
+
 # --- MODELOS DE BANCO DE DADOS ---
-# Definição do modelo para as configurações gerais do site
 class ConfiguracaoSite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    # Caminho da imagem da logo (será salvo no sistema de arquivos e o caminho aqui)
     logo_url = db.Column(db.String(255), nullable=True, default='/static/images/default_logo.png')
-
-    # Cores principais do site (ex: cor_primaria, cor_secundaria)
-    cor_primaria = db.Column(db.String(7), default='#1a73e8') # Exemplo de cor azul
-    cor_secundaria = db.Column(db.String(7), default='#ffffff') # Exemplo de cor branca
-
-    # Texto principal da pagina inicial
+    cor_primaria = db.Column(db.String(7), default='#1a73e8')
+    cor_secundaria = db.Column(db.String(7), default='#ffffff')
     titulo_pagina_inicial = db.Column(db.String(255), default='Bem-vindo ao Vou Livre BR!')
     subtitulo_pagina_inicial = db.Column(db.String(255), default='Sua Aventura Começa Aqui!')
-
-    # Você pode adicionar outros campos aqui conforme as necessidades globais do seu site
-    # Por exemplo: link_instagram, link_facebook, etc.
 
     def __repr__(self):
         return f'<ConfiguracaoSite {self.id}>'
 
-# --- Carregando as traduções (pode permanecer aqui ou ser dinâmico no futuro) ---
+# --- INTERNACIONALIZAÇÃO (i18n) ---
+# Carrega o arquivo de traduções
 with open(os.path.join(app.static_folder, 'translations.json'), 'r', encoding='utf-8') as f:
     translations = json.load(f)
 
-# --- Idiomas suportados ---
 SUPPORTED_LANGUAGES = ['pt', 'en', 'es']
 DEFAULT_LANGUAGE = 'pt'
 
-# --- Middleware para detectar o idioma ---
 @app.before_request
 def detect_language():
-    # A session precisa ser definida no app.config['SECRET_KEY'] para funcionar
-    # Verificar se já existe um idioma na URL
+    """Detecta o idioma e o armazena em `g.lang` para uso na requisição."""
     path_parts = request.path.split('/')
+    lang_code = DEFAULT_LANGUAGE
+
     if len(path_parts) > 1 and path_parts[1] in SUPPORTED_LANGUAGES:
-        flask.g.lang = path_parts[1]
-        return
-    
-    # Verificar se existe um idioma na sessão
-    if 'lang' in session: # Use 'session' do flask import
-        flask.g.lang = session['lang']
-        return
-    
-    # Detectar idioma do navegador
-    browser_lang = request.accept_languages.best_match(SUPPORTED_LANGUAGES)
-    if browser_lang:
-        flask.g.lang = browser_lang
+        lang_code = path_parts[1]
+    elif 'lang' in session:
+        lang_code = session['lang']
     else:
-        flask.g.lang = DEFAULT_LANGUAGE
-    
-    # Salvar na sessão
-    session['lang'] = flask.g.lang # Use 'session' do flask import
+        browser_lang = request.accept_languages.best_match(SUPPORTED_LANGUAGES)
+        if browser_lang:
+            lang_code = browser_lang
+
+    g.lang = lang_code
+    session['lang'] = lang_code
+
+def render_with_lang(template_name, **kwargs):
+    """Função auxiliar para sempre passar variáveis comuns para os templates."""
+    return render_template(
+        template_name,
+        lang=g.lang,
+        translations=translations,
+        current_path=request.path,
+        **kwargs
+    )
 
 
-# --- Rotas da Aplicação ---
+# --- ROTAS PRINCIPAIS ---
 
-# Rota para redirecionamento da raiz para o idioma padrão
 @app.route('/')
 def index():
-    return redirect(f'/{flask.g.lang}')
+    """Redireciona a rota raiz (/) para a home com o idioma detectado."""
+    return redirect(url_for('home', lang=g.lang))
 
-# Rota para a página inicial em cada idioma
-@app.route('/<lang>/')
+@app.route('/<string:lang>/')
 def home(lang):
+    """Exibe a página inicial."""
     if lang not in SUPPORTED_LANGUAGES:
-        return redirect(f'/{DEFAULT_LANGUAGE}/')
+        return redirect(url_for('home', lang=DEFAULT_LANGUAGE))
     
-    # Exemplo de como carregar as configurações do site
-    # Lembre-se que isso vai buscar do banco de dados agora
     site_config = ConfiguracaoSite.query.first()
-    if site_config is None:
-        # Cria uma configuração padrão se ainda não existir no banco
-        site_config = ConfiguracaoSite()
-        db.session.add(site_config)
-        db.session.commit()
+    return render_with_lang('index.html', site_config=site_config)
 
-    return render_template(
-        'index.html',
-        lang=lang,
-        translations=translations,
-        current_path=request.path,
-        site_config=site_config # Passando as configurações para o template
-    )
-
-# Rota para a página de roteiros
-@app.route('/<lang>/roteiros')
-def itineraries(lang):
+# --- ROTA SEPARADA PARA A LISTA DE ROTEIROS ---
+@app.route('/<string:lang>/roteiros')
+def roteiros_lista(lang):
+    """Exibe a página com a LISTA de todos os roteiros."""
     if lang not in SUPPORTED_LANGUAGES:
-        return redirect(f'/{DEFAULT_LANGUAGE}/roteiros')
+        return redirect(url_for('roteiros_lista', lang=DEFAULT_LANGUAGE))
     
-    return render_template(
-        'roteiros.html',
-        lang=lang,
-        translations=translations,
-        current_path=request.path
-    )
+    # Aqui você renderiza a página que mostra todos os cards de roteiros
+    # No futuro, você pode passar a lista completa de roteiros para o template
+    return render_with_lang('roteiros.html', todos_roteiros=DADOS_ROTEIROS)
 
-# Rota para a página de blog
-@app.route('/<lang>/blog')
+
+# --- ROTA CORRIGIDA PARA OS DETALHES DE UM ROTEIRO ---
+@app.route('/<string:lang>/roteiros/<string:roteiro_slug>')
+def roteiro_detalhe(lang, roteiro_slug):
+    """Exibe a página de DETALHES de um roteiro específico."""
+    if lang not in SUPPORTED_LANGUAGES:
+        return redirect(url_for('roteiro_detalhe', lang=DEFAULT_LANGUAGE, roteiro_slug=roteiro_slug))
+
+    # Busca o roteiro específico no nosso dicionário de dados
+    roteiro = DADOS_ROTEIROS.get(roteiro_slug)
+
+    # Se o roteiro não for encontrado, exibe um erro 404
+    if not roteiro:
+        # Idealmente, você teria um template '404.html'
+        return "Roteiro não encontrado", 404
+
+    # Renderiza a página de detalhes, passando os dados do roteiro encontrado
+    return render_with_lang('roteiro_detalhe.html', roteiro=roteiro)
+
+
+# --- Demais Rotas ---
+
+@app.route('/<string:lang>/blog')
 def blog(lang):
     if lang not in SUPPORTED_LANGUAGES:
-        return redirect(f'/{DEFAULT_LANGUAGE}/blog')
-    
-    return render_template(
-        'blog.html',
-        lang=lang,
-        translations=translations,
-        current_path=request.path
-    )
+        return redirect(url_for('blog', lang=DEFAULT_LANGUAGE))
+    return render_with_lang('blog.html')
 
-# Rota para a página de destinos
-@app.route('/<lang>/destinos')
+@app.route('/<string:lang>/destinos')
 def destinations(lang):
     if lang not in SUPPORTED_LANGUAGES:
-        return redirect(f'/{DEFAULT_LANGUAGE}/destinos')
-    
-    return render_template(
-        'destinos.html',
-        lang=lang,
-        translations=translations,
-        current_path=request.path
-    )
+        return redirect(url_for('destinations', lang=DEFAULT_LANGUAGE))
+    return render_with_lang('destinos.html')
 
-# Rota para a página de comunidade
-@app.route('/<lang>/comunidade')
+@app.route('/<string:lang>/comunidade')
 def community(lang):
     if lang not in SUPPORTED_LANGUAGES:
-        return redirect(f'/{DEFAULT_LANGUAGE}/comunidade')
-    
-    return render_template(
-        'comunidade.html',
-        lang=lang,
-        translations=translations,
-        current_path=request.path
-    )
+        return redirect(url_for('community', lang=DEFAULT_LANGUAGE))
+    return render_with_lang('comunidade.html')
 
-# Rota para a página de loja
-@app.route('/<lang>/loja')
+@app.route('/<string:lang>/loja')
 def shop(lang):
-    if lang not in SUPPORTED_LANGES:
-        return redirect(f'/{DEFAULT_LANGUAGE}/loja')
-    
-    return render_template(
-        'loja.html',
-        lang=lang,
-        translations=translations,
-        current_path=request.path
-    )
+    # Correção do bug de digitação
+    if lang not in SUPPORTED_LANGUAGES:
+        return redirect(url_for('shop', lang=DEFAULT_LANGUAGE))
+    return render_with_lang('loja.html')
 
-# Rota para a página de perfil
-@app.route('/<lang>/perfil')
+@app.route('/<string:lang>/perfil')
 def profile(lang):
     if lang not in SUPPORTED_LANGUAGES:
-        return redirect(f'/{DEFAULT_LANGUAGE}/perfil')
-    
-    return render_template(
-        'perfil.html',
-        lang=lang,
-        translations=translations,
-        current_path=request.path
-    )
+        return redirect(url_for('profile', lang=DEFAULT_LANGUAGE))
+    return render_with_lang('perfil.html')
 
-# Rota para a página de detalhes do roteiro
-@app.route('/<lang>/roteiros/<roteiro_id>')
-def itinerary_detail(lang, roteiro_id):
-    if lang not in SUPPORTED_LANGUAGES:
-        return redirect(f'/{DEFAULT_LANGUAGE}/roteiros/{roteiro_id}')
-    
-    return render_template(
-        'roteiro_detalhe.html',
-        lang=lang,
-        translations=translations,
-        current_path=request.path,
-        roteiro_id=roteiro_id
-    )
-
-# Rota para a página de planos premium
-@app.route('/<lang>/planos')
+@app.route('/<string:lang>/planos')
 def plans(lang):
     if lang not in SUPPORTED_LANGUAGES:
-        return redirect(f'/{DEFAULT_LANGUAGE}/planos')
-    
-    return render_template(
-        'planos.html',
-        lang=lang,
-        translations=translations,
-        current_path=request.path
-    )
+        return redirect(url_for('plans', lang=DEFAULT_LANGUAGE))
+    return render_with_lang('planos.html')
 
-# Rota para alternar idioma
-@app.route('/change-language/<lang>')
-def change_language(lang):
-    if lang not in SUPPORTED_LANGUAGES:
-        lang = DEFAULT_LANGUAGE
-    
-    session['lang'] = lang # Use 'session' do flask import
-    
-    # Redirecionar para a mesma página no novo idioma
+# --- ROTA CORRIGIDA PARA MUDANÇA DE IDIOMA ---
+@app.route('/change-language/<string:new_lang>')
+def change_language(new_lang):
+    if new_lang not in SUPPORTED_LANGUAGES:
+        new_lang = DEFAULT_LANGUAGE
+    session['lang'] = new_lang
+
+    # Tenta de forma inteligente voltar para a página anterior com o novo idioma
     referer = request.headers.get('Referer')
     if referer:
-        # Extrair o caminho atual e substituir o idioma
-        path_parts = request.path.split('/')
-        if len(path_parts) > 2:
-            new_path = '/' + lang + '/' + '/'.join(path_parts[2:])
+        # Substitui o código de idioma antigo pelo novo na URL anterior
+        from urllib.parse import urlparse
+        old_path = urlparse(referer).path
+        path_parts = old_path.split('/')
+        if len(path_parts) > 1 and path_parts[1] in SUPPORTED_LANGUAGES:
+            path_parts[1] = new_lang
+            new_path = '/'.join(path_parts)
             return redirect(new_path)
-    
-    return redirect(f'/{lang}/')
+            
+    # Caso não consiga, redireciona para a home no novo idioma
+    return redirect(url_for('home', lang=new_lang))
 
 
 # --- Execução da Aplicação ---
-# Apenas um bloco if __name__ == '__main__': para toda a execução
 if __name__ == '__main__':
     with app.app_context():
-        # Cria as tabelas do banco de dados se não existirem
-        # IMPORTANTE: Em produção, use 'flask db upgrade' no Render, não db.create_all()
         db.create_all() 
-        
-        # Garante que sempre haja uma entrada de Configuração do Site
         if ConfiguracaoSite.query.first() is None:
             default_config = ConfiguracaoSite()
             db.session.add(default_config)
             db.session.commit()
             print("Configuração padrão do site criada no banco de dados.")
 
-    # Inicia o servidor de desenvolvimento
     app.run(host='0.0.0.0', port=5000, debug=True)
