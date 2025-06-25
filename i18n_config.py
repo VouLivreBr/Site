@@ -20,7 +20,7 @@ except json.JSONDecodeError:
     print(f"Erro: O arquivo '{TRANSLATIONS_FILE}' não é um JSON válido.")
     all_translations = {}
 
-def configure_i18n():
+def configure_i18n_lib():
     # Define o idioma padrão (fallback)
     i18n.set('fallback', 'pt') # Português como padrão
 
