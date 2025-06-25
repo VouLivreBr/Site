@@ -41,7 +41,7 @@ def configure_i18n_lib():
     i18n.set('locale', 'pt') # Define o idioma inicial para 'pt'
 
 # Chama a função de configuração ao importar o módulo
-configure_i18n()
+configure_i18n_lib()
 
 # A função de tradução será acessível como i18n.t()
 # Exemplo de como você usaria:
